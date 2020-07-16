@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.afficher.AfficherListeContactActivity"
+    tools:context=".activities.afficher.AfficherListeDepenseActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Etape 4 sur 4" />
+            android:text="Liste des Depenses" />
 
 
         <LinearLayout
@@ -41,43 +41,24 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listeContact"
+                android:id="@+id/listeDepense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
             </androidx.recyclerview.widget.RecyclerView>
 
-
-
-
-
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabAdd"
-                    style="@style/Widget.MaterialComponents.FloatingActionButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
-
-                    android:layout_margin="16dip"
-
-                    app:backgroundTint="@color/colorPrimary"
-                    app:srcCompat="@drawable/outline_add_black_24dp"
-                    app:tint="@android:color/white" />
-
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabSave"
+                android:id="@+id/fabAdd"
                 style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
 
-                android:layout_margin="50dip"
+                android:layout_margin="16dip"
 
                 app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@drawable/icons8_coche_24"
+                app:srcCompat="@drawable/outline_add_black_24dp"
                 app:tint="@android:color/white" />
-
 
 
         </LinearLayout>

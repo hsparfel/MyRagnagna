@@ -36,12 +36,13 @@ public class DateUtils {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
 
 
         String dateMaj = "";
         dateMaj += mapJours.get(dayOfWeek)+" ";
-        dateMaj += dayOfWeek+" ";
+        dateMaj += day+" ";
         dateMaj += mapMois.get(month)+" ";
         dateMaj += date.getYear()+1900;
 

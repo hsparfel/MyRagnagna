@@ -21,6 +21,8 @@
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.ajouter.AjouterCategorieDepenseActivity"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.afficher.AfficherListeDepenseActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

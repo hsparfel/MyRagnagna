@@ -25,9 +25,9 @@
             <group android:checkableBehavior="single">
 
                 <item
-                    android:id="@+id/activity_main_drawer_ordonnances"
-                    android:icon="@drawable/prescription"
-                    android:title="Mes Ordonnances" />
+                    android:id="@+id/activity_main_drawer_lister_depenses"
+                    android:icon="@drawable/icons8_liste"
+                    android:title="Lister Depenses" />
 
             </group>
         </menu>

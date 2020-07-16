@@ -3,6 +3,7 @@ package com.pouillos.mydepenses.activities.afficher;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,8 +12,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pouillos.mydepenses.R;
 import com.pouillos.mydepenses.activities.AccueilActivity;
 import com.pouillos.mydepenses.activities.NavDrawerActivity;
-import com.pouillos.mydepenses.entities.Contact;
-import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterContact;
+import com.pouillos.mydepenses.activities.ajouter.AjouterCategorieDepenseActivity;
+import com.pouillos.mydepenses.entities.Depense;
+import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterDepense;
+import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterDepense;
 import com.pouillos.mydepenses.utils.ItemClickSupport;
 
 import java.util.List;
@@ -22,30 +25,27 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import icepick.Icepick;
 
-public class AfficherListeContactActivity extends NavDrawerActivity implements RecyclerAdapterContact.Listener {
+public class AfficherListeDepenseActivity extends NavDrawerActivity implements RecyclerAdapterDepense.Listener {
 
 
 
     @BindView(R.id.fabAdd)
     FloatingActionButton fabAdd;
 
-    @BindView(R.id.fabSave)
-    FloatingActionButton fabSave;
 
-    private List<Contact> listContact;
-    private List<Contact> listContactBD;
-    //private Utilisateur currentUtilisateur;
+    private List<Depense> listDepense;
+    private List<Depense> listDepenseBD;
 
-    private RecyclerAdapterContact adapter;
+    private RecyclerAdapterDepense adapter;
 
-    @BindView(R.id.listeContact)
-    RecyclerView listeContact;
+    @BindView(R.id.listeDepense)
+    RecyclerView listeDepense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
-        setContentView(R.layout.activity_afficher_liste_contact);
+        setContentView(R.layout.activity_afficher_liste_depense);
         // 6 - Configure all views
       //  this.configureToolBar();
        // this.configureDrawerLayout();
@@ -54,42 +54,29 @@ public class AfficherListeContactActivity extends NavDrawerActivity implements R
       //  activeUser = findActiveUser();
 
        // traiterIntent();
-       // listContactBD = contactDao.loadAll();
-        if (listContactBD.size() == 0) {
-            fabSave.hide();
-        } else {
+        listDepenseBD = depenseDao.loadAll();
+
             // 6 - Configure all views
             this.configureToolBar();
             this.configureDrawerLayout();
             this.configureNavigationView();
-        }
-//todo remplir recyclerview
+
 
         configureRecyclerView();
         configureOnClickRecyclerView();
     }
 
-
-
-    /*public void traiterIntent() {
-        Intent intent = getIntent();
-        if (intent.hasExtra("utilisateurId")) {
-            Long utilisateurId = intent.getLongExtra("utilisateurId", 0);
-            currentUtilisateur = utilisateurDao.load(utilisateurId);
-        }
-    }*/
-
     public void configureRecyclerView() {
-        adapter = new RecyclerAdapterContact(listContactBD,this);
+        adapter = new RecyclerAdapterDepense(listDepenseBD,this);
         // 3.3 - Attach the adapter to the recyclerview to populate items
-        listeContact.setAdapter(adapter);
+        listeDepense.setAdapter(adapter);
         // 3.4 - Set layout manager to position the items
         //this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listeContact.setLayoutManager(new LinearLayoutManager(this));
+        listeDepense.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void configureOnClickRecyclerView(){
-        ItemClickSupport.addTo(listeContact, R.layout.recycler_list_contact)
+        ItemClickSupport.addTo(listeDepense, R.layout.recycler_list_depense)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -99,24 +86,19 @@ public class AfficherListeContactActivity extends NavDrawerActivity implements R
     }
 
     @Override
-    public void onClickContactButton(int position) {
-        Contact contact = adapter.getContact(position);
-       // Toast.makeText(AfficherListeContactActivity.this, "a faire ", Toast.LENGTH_SHORT).show();
-        //contact.delete();
-      //  ouvrirActiviteSuivante(AfficherListeContactActivity.this,AfficherContactActivity.class,"contactId",contact.getId(),true);
+    public void onClickDepenseButton(int position) {
+        Depense depense = adapter.getDepense(position);
+        Toast.makeText(AfficherListeDepenseActivity.this, "a faire ", Toast.LENGTH_SHORT).show();
+        //depense.delete();
+      //  ouvrirActiviteSuivante(AfficherListeDepenseActivity.this,AfficherDepenseActivity.class,"depenseId",depense.getId(),true);
 
-        //listContactBD.remove(position);
+        //listDepenseBD.remove(position);
         //adapter.notifyItemRemoved(position);
     }
     
     @OnClick(R.id.fabAdd)
     public void setfabAddClick() {
-   //     ouvrirActiviteSuivante(AfficherListeContactActivity.this,AfficherContactActivity.class,true);
-    }
-
-    @OnClick(R.id.fabSave)
-    public void setFabSaveClick() {
-        ouvrirActiviteSuivante(AfficherListeContactActivity.this, AccueilActivity.class,true);
+        ouvrirActiviteSuivante(AfficherListeDepenseActivity.this, AfficherDepenseActivity.class,false);
     }
 
 

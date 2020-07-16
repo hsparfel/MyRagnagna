@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.pouillos.mydepenses.R;
 import com.pouillos.mydepenses.activities.afficher.AfficherDepenseActivity;
+import com.pouillos.mydepenses.activities.afficher.AfficherListeDepenseActivity;
 import com.pouillos.mydepenses.activities.ajouter.AjouterCategorieDepenseActivity;
 import com.pouillos.mydepenses.dao.CategorieDepenseDao;
 import com.pouillos.mydepenses.dao.DaoMaster;
@@ -110,8 +111,9 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 startActivity(myProfilActivity);
                 break;
 
-            case R.id.activity_main_drawer_ordonnances:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+            case R.id.activity_main_drawer_lister_depenses:
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeDepenseActivity.class);
+                startActivity(myProfilActivity);
                 break;
 
             case R.id.activity_main_drawer_add_categorie_depense:
@@ -140,62 +142,24 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       // Intent myProfilActivity = new Intent(NavDrawerActivity.this, ChercherContactActivity.class);
+        Intent myProfilActivity; // = new Intent(NavDrawerActivity.this, ChercherContactActivity.class);
         //startActivity(myProfilActivity);
         //3 - Handle actions on menu items
         switch (item.getItemId()) {
             /*case R.id.menu_activity_main_params:
                 Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...", Toast.LENGTH_LONG).show();
                 return true;*/
-            case R.id.menu_activity_main_search:
+            case R.id.menu_activity_main_add_depense:
                 //Toast.makeText(this, "Recherche indisponible, demandez plutôt l'avis de Google, c'est mieux et plus rapide.", Toast.LENGTH_LONG).show();
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, ChercherContactActivity.class);
-               // startActivity(myProfilActivity);
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherDepenseActivity.class);
+                startActivity(myProfilActivity);
                 return true;
-            case R.id.addAnalyse:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, AddAnalyseActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.addExamen:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, AddExamenActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.listAllAnalyse:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, AfficherAnalyseActivity.class);
-             //   startActivity(myProfilActivity);
-                return true;
-            case R.id.listAllExamen:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, AfficherExamenActivity.class);
-             //   startActivity(myProfilActivity);
-                return true;
-            case R.id.listMyProfil:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, AfficherProfilActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.takePicture:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, MakePhotoActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.pickPicture:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, AfficherPhotoActivity.class);
-               // startActivity(myProfilActivity);
-                return true;
-            case R.id.importContact:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, ImportContactActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
+
             case R.id.importEtablissement:
               //  myProfilActivity = new Intent(NavDrawerActivity.this, ImportEtablissementActivity.class);
               //  startActivity(myProfilActivity);
                 return true;
-            case R.id.importMedicament:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, ImportMedicamentActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.rchEtablissement:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, ChercherEtablissementActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
