@@ -9,9 +9,9 @@
             android:icon="@drawable/outline_home_black_24dp"
             android:title="@string/home" />
         <item
-            android:id="@+id/activity_main_drawer_account"
+            android:id="@+id/activity_main_drawer_add_depense"
             android:icon="@drawable/outline_face_black_24dp"
-            android:title="@string/text_my_account" />
+            android:title="Add Depense" />
         <item
             android:id="@+id/activity_main_drawer_contacts"
             android:icon="@drawable/book_contact"

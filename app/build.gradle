@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.pouillos.mysosapp"
+        applicationId "com.pouillos.mydepenses"
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
@@ -29,8 +29,8 @@ android {
 }
 
 greendao {
-    schemaVersion 10
-    daoPackage "com.pouillos.mysosapp.dao" // set package of generated classes
+    schemaVersion 1
+    daoPackage "com.pouillos.mydepenses.dao" // set package of generated classes
 }
 
 dependencies {

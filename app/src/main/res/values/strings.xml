@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MySosApp</string>
+    <string name="app_name">MyDepenses</string>
 
     <string name="dialog_delete_title">Suppression</string>
     <string name="dialog_delete_message">Attention ! La suppression est définitive</string>

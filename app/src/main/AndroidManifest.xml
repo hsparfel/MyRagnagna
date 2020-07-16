@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pouillos.mysosapp">
+    package="com.pouillos.mydepenses">
 
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -36,7 +36,7 @@
         <activity android:name=".activities.afficher.AfficherSmsPersoActivity"
             android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name=".activities.action.LampeActivity"
+        <activity android:name=".activities.afficher.AfficherDepenseActivity"
             android:windowSoftInputMode="stateHidden"/>
     </application>
 
