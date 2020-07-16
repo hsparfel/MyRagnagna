@@ -1,15 +1,11 @@
 package com.pouillos.mydepenses.activities;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,34 +24,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
-
 import com.pouillos.mydepenses.R;
-
-
 import com.pouillos.mydepenses.activities.afficher.AfficherDepenseActivity;
-import com.pouillos.mydepenses.activities.afficher.AfficherListeContactActivity;
-import com.pouillos.mydepenses.activities.afficher.AfficherSmsPersoActivity;
-import com.pouillos.mydepenses.activities.afficher.AfficherUtilisateurEtapeUnActivity;
-import com.pouillos.mydepenses.dao.AffectationDao;
+import com.pouillos.mydepenses.activities.ajouter.AjouterCategorieDepenseActivity;
 import com.pouillos.mydepenses.dao.CategorieDepenseDao;
-import com.pouillos.mydepenses.dao.ContactDao;
 import com.pouillos.mydepenses.dao.DaoMaster;
 import com.pouillos.mydepenses.dao.DaoSession;
-import com.pouillos.mydepenses.dao.HistoriqueSmsDao;
-import com.pouillos.mydepenses.dao.LettreMorseDao;
-import com.pouillos.mydepenses.dao.ParametresDao;
-import com.pouillos.mydepenses.dao.SmsAccidentDao;
-import com.pouillos.mydepenses.dao.SmsEnlevementDao;
-import com.pouillos.mydepenses.dao.TempoMorseDao;
-import com.pouillos.mydepenses.dao.UtilisateurDao;
-import com.pouillos.mydepenses.entities.Affectation;
-import com.pouillos.mydepenses.entities.Contact;
-import com.pouillos.mydepenses.entities.HistoriqueSms;
-import com.pouillos.mydepenses.entities.Parametres;
-import com.pouillos.mydepenses.entities.Utilisateur;
+import com.pouillos.mydepenses.dao.DepenseDao;
 import com.pouillos.mydepenses.fragments.DatePickerFragment;
 import com.pouillos.mydepenses.utils.DateUtils;
-
 
 import org.greenrobot.greendao.database.Database;
 
@@ -81,23 +58,10 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     protected DaoSession daoSession;
 
-    //private DaoSession daoSession;
     protected CategorieDepenseDao categorieDepenseDao;
-    protected AffectationDao affectationDao;
+    protected DepenseDao depenseDao;
 
 
-
-    protected UtilisateurDao utilisateurDao;
-    protected LettreMorseDao lettreMorseDao;
-    protected TempoMorseDao tempoMorseDao;
-    protected ContactDao contactDao;
-    protected SmsAccidentDao smsAccidentDao;
-    protected SmsEnlevementDao smsEnlevementDao;
-
-    protected ParametresDao parametresDao;
-    protected HistoriqueSmsDao historiqueSmsDao;
-
-    protected Utilisateur activeUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,20 +70,8 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         //initialiser greenDAO
         initialiserDao();
         categorieDepenseDao = daoSession.getCategorieDepenseDao();
-        affectationDao = daoSession.getAffectationDao();
+        depenseDao = daoSession.getDepenseDao();
 
-        utilisateurDao = daoSession.getUtilisateurDao();
-        lettreMorseDao = daoSession.getLettreMorseDao();
-        tempoMorseDao = daoSession.getTempoMorseDao();
-        contactDao = daoSession.getContactDao();
-        smsAccidentDao = daoSession.getSmsAccidentDao();
-        smsEnlevementDao = daoSession.getSmsEnlevementDao();
-        parametresDao = daoSession.getParametresDao();
-        historiqueSmsDao = daoSession.getHistoriqueSmsDao();
-      /*  List<Utilisateur> listUserActif = Utilisateur.find(Utilisateur.class, "actif = ?", "1");
-        if (listUserActif.size() != 0) {
-            activeUser = listUserActif.get(0);
-        }*/
     }
 
     @Override
@@ -151,43 +103,23 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             case R.id.activity_main_drawer_home:
                 ouvrirActiviteSuivante(NavDrawerActivity.this, AccueilActivity.class,true);
                 break;
-            case R.id.activity_main_drawer_lampe:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                //ouvrirActiviteSuivante(NavDrawerActivity.this, LampeActivity.class,true);
-                break;
-            case R.id.activity_main_drawer_sms_perso:
-               // Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherSmsPersoActivity.class);
-                startActivity(myProfilActivity);
-                break;
+
             case R.id.activity_main_drawer_add_depense:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 myProfilActivity = new Intent(NavDrawerActivity.this, AfficherDepenseActivity.class);
                 startActivity(myProfilActivity);
                 break;
-            case R.id.activity_main_drawer_change_account:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
+
             case R.id.activity_main_drawer_ordonnances:
                 Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.activity_main_drawer_contact_appointments:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.activity_main_drawer_analysis_appointments:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.activity_main_drawer_exam_appointments:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.activity_main_drawer_contacts:
+
+            case R.id.activity_main_drawer_add_categorie_depense:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeContactActivity.class);
+                myProfilActivity = new Intent(NavDrawerActivity.this, AjouterCategorieDepenseActivity.class);
                 startActivity(myProfilActivity);
                 break;
-            case R.id.activity_main_drawer_etablissement:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
+
             case R.id.activity_main_drawer_raz:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 raz();
@@ -203,7 +135,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     }
 
     protected void raz() {
-        utilisateurDao.deleteAll();
+
     }
 
     @Override
@@ -276,7 +208,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     public void configureToolBar() {
         this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     // 2 - Configure Drawer Layout
@@ -300,6 +231,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             finish();
         }
     }
+
     public void revenirActivitePrecedente(String sharedName, String dataName, Long itemId) {
         SharedPreferences preferences=getSharedPreferences(sharedName,MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
@@ -307,7 +239,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         editor.commit();
         finish();
     }
-
 
     public void ouvrirActiviteSuivante(Context context, Class classe, String nomExtra, Long objetIdExtra, boolean bool) {
         Intent intent = new Intent(context, classe);
@@ -343,15 +274,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         return dateActualisee;
     }
 
-    protected Utilisateur findActiveUser() {
-        Utilisateur user = null;
-        List<Utilisateur> listUtilisateur = utilisateurDao.loadAll();
-        if (listUtilisateur.size() !=0){
-            user = listUtilisateur.get(0);
-        }
-       return user;
-    }
-
     protected <T> void buildDropdownMenu(List<T> listObj, Context context, AutoCompleteTextView textView) {
         List<String> listString = new ArrayList<>();
         String[] listDeroulante;
@@ -369,42 +291,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         return super.getMainExecutor();
     }
 
-
-
-    /*protected <T extends SugarRecord> void deleteItem(Context context, T item, Class classe, boolean toConfirm) {
-        if (toConfirm) {
-            new MaterialAlertDialogBuilder(context)
-                    .setTitle(R.string.dialog_delete_title)
-                    .setMessage(R.string.dialog_delete_message)
-                    .setNegativeButton(R.string.dialog_delete_negative, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(context, R.string.dialog_delete_negative_toast, Toast.LENGTH_LONG).show();
-
-                        }
-                    })
-                    .setPositiveButton(R.string.dialog_delete_positive, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(context, R.string.dialog_delete_positive_toast, Toast.LENGTH_LONG).show();
-                            item.delete();
-                            supprimerNotification(item, context);
-
-                            ouvrirActiviteSuivante(context, classe,true);
-
-                        }
-                    })
-                    .show();
-        } else {
-            item.delete();
-            supprimerNotification(item, context);
-            ouvrirActiviteSuivante(context, classe,true);
-        }
-
-
-
-    }*/
-
     protected boolean isChecked(ChipGroup chipGroup) {
         boolean bool;
         if (chipGroup.getCheckedChipId() != -1) {
@@ -415,11 +301,24 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         return bool;
     }
 
-
     protected boolean isFilled(TextInputEditText textInputEditText){
         boolean bool;
         if (textInputEditText.length()>0) {
             bool = true;
+        } else {
+            bool = false;
+        }
+        return bool;
+    }
+
+    protected boolean isFilled(AutoCompleteTextView textView){
+        boolean bool;
+        if (textView != null) {
+            if (!textView.getText().toString().equalsIgnoreCase("")) {
+                bool = true;
+            } else {
+                bool = false;
+            }
         } else {
             bool = false;
         }
@@ -438,8 +337,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     protected boolean isValidTel(TextView textView) {
         if (!TextUtils.isEmpty(textView.getText()) && textView.getText().length() <10) {
-            //textView.requestFocus();
-            //textView.setError("Saisie Non Valide  (10 chiffres)");
             return false;
         } else {
             return true;
@@ -448,8 +345,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     protected boolean isValidZip(TextView textView) {
         if (!TextUtils.isEmpty(textView.getText()) && textView.getText().length() <5) {
-            //textView.requestFocus();
-            //textView.setError("Saisie Non Valide  (5 chiffres)");
             return false;
         } else {
             return true;
@@ -463,8 +358,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     }
     protected boolean isValidEmail(TextView textView) {
         if (!TextUtils.isEmpty(textView.getText()) && !isEmailAdress(textView.getText().toString())) {
-            //textView.requestFocus();
-            //textView.setError("Saisie Non Valide (email)");
             return false;
         } else {
             return true;
@@ -477,298 +370,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         return bd.floatValue();
     }
 
-
-    protected<T> void activerNotification(T object, Context context) {
-      /*  if (object instanceof RdvContact) {
-           startAlert((RdvContact) object, Echeance.OneHourAfter.toString(), context);
-           startAlert((RdvContact) object, Echeance.OneDayAfter.toString(), context);
-        } else if (object instanceof RdvAnalyse) {
-            startAlert((RdvAnalyse) object, Echeance.OneHourAfter.toString(), context);
-            startAlert((RdvAnalyse) object, Echeance.OneDayAfter.toString(), context);
-        } else if (object instanceof RdvExamen) {
-            startAlert((RdvExamen) object, Echeance.OneHourAfter.toString(), context);
-            startAlert((RdvExamen) object, Echeance.OneDayAfter.toString(), context);
-        } else if (object instanceof Prise) {
-            startAlert((Prise) object, context);
-        }*/
-
-    }
-    /*protected<T> void activerNotification(Class classe, Date dateRdv, T object, Context context) {
-        if (classe == RdvContactNotificationBroadcastReceiver.class) {
-            startAlert(classe, DateUtils.ajouterHeure(dateRdv,-1), ((Contact) object).toStringShort(), Echeance.OneHourAfter.toString(),context);
-            startAlert(classe, DateUtils.ajouterJourArrondi(dateRdv,-1,7), ((Contact) object).toStringShort(), Echeance.OneDayAfter.toString(),context);
-        } else if (classe == RdvAnalyseNotificationBroadcastReceiver.class) {
-            startAlert(classe, DateUtils.ajouterHeure(dateRdv,-1), ((Analyse) object).toString(), Echeance.OneHourAfter.toString(),context);
-            startAlert(classe, DateUtils.ajouterJourArrondi(dateRdv,-1,7), ((Analyse) object).toString(), Echeance.OneDayAfter.toString(),context);
-        } else if (classe == RdvExamenNotificationBroadcastReceiver.class) {
-            startAlert(classe, DateUtils.ajouterHeure(dateRdv,-1), ((Examen) object).toString(), Echeance.OneHourAfter.toString(),context);
-            startAlert(classe, DateUtils.ajouterJourArrondi(dateRdv,-1,7), ((Examen) object).toString(), Echeance.OneDayAfter.toString(),context);
-        }
-
-    }*/
-
-    protected<T> void supprimerNotification(T object, Context context) {
-      /*  if (object instanceof RdvContact) {
-            List<AssociationAlarmRdv> listAssociationAlarmRdv = AssociationAlarmRdv.find(AssociationAlarmRdv.class,"rdv_contact = ?", ((RdvContact) object).getId().toString());
-            AlarmRdv alarmRdv = new AlarmRdv();
-            for (AssociationAlarmRdv current : listAssociationAlarmRdv) {
-                alarmRdv = AlarmRdv.findById(AlarmRdv.class,current.getAlarmRdv().getId());
-                if (alarmRdv.getEcheance().equalsIgnoreCase(Echeance.OneHourAfter.toString())) {
-                    cancelAlert((RdvContact) object, Echeance.OneHourAfter.toString(),context, alarmRdv.getRequestCode());
-                } else if (alarmRdv.getEcheance().equalsIgnoreCase(Echeance.OneDayAfter.toString())) {
-                    cancelAlert((RdvContact) object, Echeance.OneDayAfter.toString(),context, alarmRdv.getRequestCode());
-                }
-            }
-        } else if (object instanceof RdvAnalyse) {
-            List<AssociationAlarmRdv> listAssociationAlarmRdv = AssociationAlarmRdv.find(AssociationAlarmRdv.class,"rdv_analyse = ?", ((RdvAnalyse) object).getId().toString());
-            AlarmRdv alarmRdv = new AlarmRdv();
-            for (AssociationAlarmRdv current : listAssociationAlarmRdv) {
-                alarmRdv = AlarmRdv.findById(AlarmRdv.class,current.getAlarmRdv().getId());
-                if (alarmRdv.getEcheance().equalsIgnoreCase(Echeance.OneHourAfter.toString())) {
-                    cancelAlert((RdvAnalyse) object, Echeance.OneHourAfter.toString(),context, alarmRdv.getRequestCode());
-                } else if (alarmRdv.getEcheance().equalsIgnoreCase(Echeance.OneDayAfter.toString())) {
-                    cancelAlert((RdvAnalyse) object, Echeance.OneDayAfter.toString(),context, alarmRdv.getRequestCode());
-                }
-            }
-        } else if (object instanceof RdvExamen) {
-            List<AssociationAlarmRdv> listAssociationAlarmRdv = AssociationAlarmRdv.find(AssociationAlarmRdv.class,"rdv_examen = ?", ((RdvExamen) object).getId().toString());
-            AlarmRdv alarmRdv = new AlarmRdv();
-            for (AssociationAlarmRdv current : listAssociationAlarmRdv) {
-                alarmRdv = AlarmRdv.findById(AlarmRdv.class,current.getAlarmRdv().getId());
-                if (alarmRdv.getEcheance().equalsIgnoreCase(Echeance.OneHourAfter.toString())) {
-                    cancelAlert((RdvExamen) object, Echeance.OneHourAfter.toString(),context, alarmRdv.getRequestCode());
-                } else if (alarmRdv.getEcheance().equalsIgnoreCase(Echeance.OneDayAfter.toString())) {
-                    cancelAlert((RdvExamen) object, Echeance.OneDayAfter.toString(),context, alarmRdv.getRequestCode());
-                }
-            }
-        }*/
-    }
-
-    /*protected<T> void supprimerNotification(Class classe, Date dateRdv, T object, Context context) {
-        if (classe == RdvContactNotificationBroadcastReceiver.class) {
-            List<AlarmRdv> listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"date_string = ? and detail = ? and echeance = ?",DateUtils.ajouterHeure(dateRdv,-1).toString(),((Contact) object).toStringShort(),Echeance.OneHourAfter.toString());
-            AlarmRdv alarmRdv = new AlarmRdv();
-            if (listAlarmRdv.size()>0) {
-                alarmRdv = listAlarmRdv.get(0);
-            }
-            cancelAlert(classe, DateUtils.ajouterHeure(dateRdv,-1), ((Contact) object).toStringShort(), Echeance.OneHourAfter.toString(),context, alarmRdv.getRequestCode());
-
-            listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"date_string = ? and detail = ? and echeance = ?",DateUtils.ajouterJourArrondi(dateRdv,-1,7).toString(),((Contact) object).toStringShort(),Echeance.OneDayAfter.toString());
-            alarmRdv = new AlarmRdv();
-            if (listAlarmRdv.size()>0) {
-                alarmRdv = listAlarmRdv.get(0);
-            }
-            cancelAlert(classe, DateUtils.ajouterJourArrondi(dateRdv,-1,7), ((Contact) object).toStringShort(), Echeance.OneDayAfter.toString(),context, alarmRdv.getRequestCode());
-        } else if (classe == RdvAnalyseNotificationBroadcastReceiver.class) {
-            List<AlarmRdv> listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"date_string = ? and detail = ? and echeance = ?",DateUtils.ajouterHeure(dateRdv,-1).toString(),((Analyse) object).toString(),Echeance.OneHourAfter.toString());
-            AlarmRdv alarmRdv = new AlarmRdv();
-            if (listAlarmRdv.size()>0) {
-                alarmRdv = listAlarmRdv.get(0);
-            }
-            cancelAlert(classe, DateUtils.ajouterHeure(dateRdv,-1), ((Analyse) object).toString(), Echeance.OneHourAfter.toString(),context, alarmRdv.getRequestCode());
-
-            listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"date_string = ? and detail = ? and echeance = ?",DateUtils.ajouterJourArrondi(dateRdv,-1,7).toString(),((Analyse) object).toString(),Echeance.OneDayAfter.toString());
-            alarmRdv = new AlarmRdv();
-            if (listAlarmRdv.size()>0) {
-                alarmRdv = listAlarmRdv.get(0);
-            }
-            cancelAlert(classe, DateUtils.ajouterJourArrondi(dateRdv,-1,7), ((Analyse) object).toString(), Echeance.OneDayAfter.toString(),context, alarmRdv.getRequestCode());
-        } else if (classe == RdvExamenNotificationBroadcastReceiver.class) {
-            List<AlarmRdv> listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"date_string = ? and detail = ? and echeance = ?",DateUtils.ajouterHeure(dateRdv,-1).toString(),((Examen) object).toString(),Echeance.OneHourAfter.toString());
-            AlarmRdv alarmRdv = new AlarmRdv();
-            if (listAlarmRdv.size()>0) {
-                alarmRdv = listAlarmRdv.get(0);
-            }
-            cancelAlert(classe, DateUtils.ajouterHeure(dateRdv,-1), ((Examen) object).toString(), Echeance.OneHourAfter.toString(),context, alarmRdv.getRequestCode());
-
-            listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"date_string = ? and detail = ? and echeance = ?",DateUtils.ajouterJourArrondi(dateRdv,-1,7).toString(),((Examen) object).toString(),Echeance.OneDayAfter.toString());
-            alarmRdv = new AlarmRdv();
-            if (listAlarmRdv.size()>0) {
-                alarmRdv = listAlarmRdv.get(0);
-            }
-            cancelAlert(classe, DateUtils.ajouterJourArrondi(dateRdv,-1,7), ((Examen) object).toString(), Echeance.OneDayAfter.toString(),context, alarmRdv.getRequestCode());
-        }
-    }*/
-
-    protected<T> void startAlert(T object, Context context) {
-        //Class classe = object.getClass();
-        Intent intent = null;
-
-        //Prise prise = (Prise) object;
-
-         //   intent = new Intent(this, PriseNotificationBroadcastReceiver.class);
-         //   intent.putExtra("detail",prise.getMedicament().getDenominationShort()+ " - "+prise.getQteDose()+ " "+prise.getDose().getName());
-
-        //intent.putExtra("echeance",echeance);
-        Date dateJour = new Date();
-        Long dateJourLong = dateJour.getTime();
-        int requestCode =dateJourLong.intValue();
-        Log.i("requestCode",""+requestCode);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-      //  Date dateAlerte = prise.getDate();
-
-
-
-      /*  alarmManager.set(AlarmManager.RTC_WAKEUP, dateAlerte.getTime(), pendingIntent);
-        AlarmRdv alarmRdv = new AlarmRdv();
-        alarmRdv.setClasse(object.getClass().getName());
-        alarmRdv.setDate(dateAlerte);
-        alarmRdv.setDateString(dateAlerte.toString());
-        alarmRdv.setDetail(intent.getStringExtra("detail"));
-        //alarmRdv.setEcheance(echeance);
-        alarmRdv.setRequestCode(requestCode);
-        alarmRdv.setId(alarmRdv.save());
-
-
-        Toast.makeText(this, "Alarm set : " + prise.getDate().toString(), Toast.LENGTH_LONG).show();*/
-    }
-
-    protected<T> void startAlert(T object, String echeance, Context context) {
-        //Class classe = object.getClass();
-        Intent intent = null;
-
-          /*  Rdv rdv = (Rdv) object;
-            if (object instanceof RdvContact) {
-                intent = new Intent(this, RdvContactNotificationBroadcastReceiver.class);
-                intent.putExtra("detail",((RdvContact) object).getContact().toStringShort());
-            } else if (object instanceof RdvAnalyse) {
-                intent = new Intent(this, RdvAnalyseNotificationBroadcastReceiver.class);
-                intent.putExtra("detail",((RdvAnalyse) object).getAnalyse().getName());
-            } else if (object instanceof RdvExamen) {
-                intent = new Intent(this, RdvExamenNotificationBroadcastReceiver.class);
-                intent.putExtra("detail",((RdvExamen) object).getExamen().getName());
-            }*/
-            intent.putExtra("echeance",echeance);
-            Date dateJour = new Date();
-            Long dateJourLong = dateJour.getTime();
-            int requestCode =dateJourLong.intValue();
-            Log.i("requestCode",""+requestCode);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
-            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-            Date dateAlerte = new Date();
-        /*    if (echeance.equalsIgnoreCase(Echeance.OneHourAfter.toString())){
-                dateAlerte = DateUtils.ajouterHeure(rdv.getDate(),-1);
-            } else if (echeance.equalsIgnoreCase(Echeance.OneDayAfter.toString())){
-                dateAlerte = DateUtils.ajouterJourArrondi(rdv.getDate(),-1,7);
-            }*/
-
-
-       /*     alarmManager.set(AlarmManager.RTC_WAKEUP, dateAlerte.getTime(), pendingIntent);
-            AlarmRdv alarmRdv = new AlarmRdv();
-            alarmRdv.setClasse(object.getClass().getName());
-            alarmRdv.setDate(dateAlerte);
-            alarmRdv.setDateString(dateAlerte.toString());
-            alarmRdv.setDetail(intent.getStringExtra("detail"));
-            alarmRdv.setEcheance(echeance);
-            alarmRdv.setRequestCode(requestCode);
-            alarmRdv.setId(alarmRdv.save());
-
-            AssociationAlarmRdv associationAlarmRdv = new AssociationAlarmRdv();
-            associationAlarmRdv.setAlarmRdv(alarmRdv);
-
-            if (object instanceof RdvContact) {
-                associationAlarmRdv.setRdvContact((RdvContact) object);
-            } else if (object instanceof RdvAnalyse) {
-                associationAlarmRdv.setRdvAnalyse((RdvAnalyse) object);
-            } else if (object instanceof RdvExamen) {
-                associationAlarmRdv.setRdvExamen((RdvExamen) object);
-            }
-            associationAlarmRdv.setId(associationAlarmRdv.save());
-            Toast.makeText(this, "Alarm set : " + rdv.getDate().toString(), Toast.LENGTH_LONG).show();
-*/
-
-    }
-
-    /*protected void startAlert(Class classe, Date dateRdv, String detail, String echeance, Context context) {
-        Intent intent = new Intent(this, classe);
-        intent.putExtra("detail",detail);
-        intent.putExtra("echeance",echeance);
-        Date dateJour = new Date();
-        Long dateJourLong = dateJour.getTime();
-        int requestCode =dateJourLong.intValue();
-        Log.i("requestCode",""+requestCode);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, dateRdv.getTime(), pendingIntent);
-        AlarmRdv alarmRdv = new AlarmRdv();
-        alarmRdv.setClasse(classe.getName());
-        alarmRdv.setDate(dateRdv);
-        alarmRdv.setDateString(dateRdv.toString());
-        alarmRdv.setDetail(detail);
-        alarmRdv.setEcheance(echeance);
-        alarmRdv.setRequestCode(requestCode);
-        alarmRdv.setId(alarmRdv.save());
-
-        AssociationAlarmRdv associationAlarmRdv = new AssociationAlarmRdv();
-        associationAlarmRdv.setAlarmRdv(alarmRdv);
-
-        if (classe == RdvContactNotificationBroadcastReceiver.class) {
-            // associationAlarmRdv.setRdvContact();
-        } else if (classe == RdvAnalyseNotificationBroadcastReceiver.class) {
-
-        } else if (classe == RdvExamenNotificationBroadcastReceiver.class) {
-
-        }
-
-
-
-        Toast.makeText(this, "Alarm set : " + dateRdv.toString(), Toast.LENGTH_LONG).show();
-    }*/
-
-    protected<T> void cancelAlert(T object, String echeance, Context context,int requestCode) {
-        Intent intent = null;
-     /*   Rdv rdv = (Rdv) object;
-        if (object instanceof RdvContact) {
-            intent = new Intent(this, RdvContactNotificationBroadcastReceiver.class);
-            intent.putExtra("detail",((RdvContact) object).getContact().toStringShort());
-        } else if (object instanceof RdvAnalyse) {
-            intent = new Intent(this, RdvAnalyseNotificationBroadcastReceiver.class);
-            intent.putExtra("detail",((RdvAnalyse) object).getAnalyse().getName());
-        } else if (object instanceof RdvExamen) {
-            intent = new Intent(this, RdvExamenNotificationBroadcastReceiver.class);
-            intent.putExtra("detail",((RdvExamen) object).getExamen().getName());
-        }
-        intent.putExtra("echeance",echeance);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
-
-        List<AlarmRdv> listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"request_code = ?", ""+requestCode);
-        AlarmRdv alarmRdv = new AlarmRdv();
-        if (listAlarmRdv.size()>0) {
-            alarmRdv = listAlarmRdv.get(0);
-            alarmRdv.delete();
-        }
-
-        List<AssociationAlarmRdv> listAssociationAlarmRdv = AssociationAlarmRdv.find(AssociationAlarmRdv.class,"alarm_rdv = ?", alarmRdv.getId().toString());
-        if (listAssociationAlarmRdv.size()>0) {
-            AssociationAlarmRdv associationAlarmRdv = listAssociationAlarmRdv.get(0);
-            associationAlarmRdv.delete();
-        }
-        Toast.makeText(this, "Alarm deleted", Toast.LENGTH_LONG).show();*/
-    }
-
-    /*private void cancelAlert(Class classe, Date dateRdv, String detail, String echeance, Context context,int requestCode) {
-        Intent intent = new Intent(this, classe);
-        intent.putExtra("detail",detail);
-        intent.putExtra("echeance",echeance);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
-
-        List<AlarmRdv> listAlarmRdv = AlarmRdv.find(AlarmRdv.class,"request_code = ?", ""+requestCode);
-        if (listAlarmRdv.size()>0) {
-            AlarmRdv alarmRdv = listAlarmRdv.get(0);
-            alarmRdv.delete();
-        }
-        Toast.makeText(this, "Alarm deleted", Toast.LENGTH_LONG).show();
-    }*/
-
     public DaoSession getDaoSession() {
         return daoSession;
     }
@@ -776,7 +377,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     public void showDatePickerDialog(View v,TextInputEditText textView, boolean hasDateMin, boolean hasDateMax,Date dateMin,Date dateMax) {
         DatePickerFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "buttonDate");
-        //Date dateToReturn;
         newFragment.setOnDateClickListener(new DatePickerFragment.onDateClickListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -787,7 +387,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                     datePicker.setMaxDate(dateMax.getTime());
                 }
 
-                //datePicker.setMaxDate(new Date().getTime());
                 String dateJour = ""+datePicker.getDayOfMonth();
                 String dateMois = ""+(datePicker.getMonth()+1);
                 String dateAnnee = ""+datePicker.getYear();
@@ -800,14 +399,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 String dateString = dateJour+"/"+dateMois+"/"+dateAnnee;
 
                 textView.setText(dateString);
-                //DateFormat df = new SimpleDateFormat(getResources().getString(R.string.format_date));
-             //   try{
-
-               //     dateToReturn = df.parse(dateString);
-
-               // }catch(ParseException e){
-               //     System.out.println(getResources().getString(R.string.error));
-                //}
             }
         });
     }
@@ -823,49 +414,10 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         return dateToReturn;
     }
 
-
-
     public void initialiserDao() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "my_sos_app_db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "my_depenses_db", null);
         Database db = helper.getWritableDb();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
     }
-
-    public Parametres recupererParametres() {
-        List<Parametres> listParametres = parametresDao.loadAll();
-        Parametres parametreToReturn = new Parametres();
-        if (listParametres.size()>0) {
-            parametreToReturn = listParametres.get(0);
-        }
-        return parametreToReturn;
-    }
-
-    public void envoyerSms(Contact contact,String message) {
-        try {
-            SmsManager smsManager = SmsManager.getDefault ();
-            ArrayList<String> parts = smsManager.divideMessage(message);
-            smsManager.sendMultipartTextMessage(contact.getTelephone(), null, parts, null, null);
-
-            Toast.makeText(getApplicationContext(), "SMS Sent!",
-                    Toast.LENGTH_LONG).show();
-            HistoriqueSms historiqueSms = new HistoriqueSms();
-            historiqueSms.setContactId(contact.getId());
-            historiqueSms.setMessage(message);
-            Date date = new Date();
-            historiqueSms.setDate(date);
-            historiqueSms.setDateString(DateUtils.ecrireDateHeure(date));
-
-            historiqueSmsDao.insert(historiqueSms);
-
-
-
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),
-                    "SMS faild, please try again later!",
-                    Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-         }
-
 }

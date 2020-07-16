@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi;
 import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pouillos.mydepenses.R;
-import com.pouillos.mydepenses.entities.Affectation;
+import com.pouillos.mydepenses.activities.afficher.AfficherDepenseActivity;
 import com.pouillos.mydepenses.entities.CategorieDepense;
 import com.pouillos.mydepenses.enumeration.TypeDepense;
 import com.pouillos.mydepenses.utils.DateUtils;
@@ -22,6 +22,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import icepick.Icepick;
 
 public class AccueilActivity extends NavDrawerActivity {
@@ -34,7 +35,6 @@ public class AccueilActivity extends NavDrawerActivity {
 
     @BindView(R.id.my_progressBar)
     ProgressBar progressBar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +54,17 @@ public class AccueilActivity extends NavDrawerActivity {
         progressBar.setVisibility(View.VISIBLE);
         AccueilActivity.AsyncTaskRunnerBD runnerBD = new AccueilActivity.AsyncTaskRunnerBD();
         runnerBD.execute();
+    }
 
+    @OnClick(R.id.fabAddDepense)
+    public void setFabAddDepenseClick() {
+        ouvrirActiviteSuivante(this,AfficherDepenseActivity.class,false);
     }
 
     private class AsyncTaskRunnerBD extends AsyncTask<Void, Integer, Void> {
 
         protected Void doInBackground(Void...voids) {
             publishProgress(0);
-
             publishProgress(10);
             remplirBDDefaut();
             publishProgress(50);
@@ -73,7 +76,6 @@ public class AccueilActivity extends NavDrawerActivity {
         protected void onPostExecute(Void result) {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(AccueilActivity.this, R.string.text_DB_created, Toast.LENGTH_LONG).show();
-
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
@@ -83,10 +85,7 @@ public class AccueilActivity extends NavDrawerActivity {
     }
 
     private void remplirBDDefaut() {
-
         remplirBDCategorieDepense();
-        remplirBDAffectation();
-
     }
 
     private void remplirBDCategorieDepense() {
@@ -194,11 +193,6 @@ public class AccueilActivity extends NavDrawerActivity {
             categorieDepenseDao.insert(categorieDepense);
 
             categorieDepense = new CategorieDepense();
-            categorieDepense.setNom("Transport");
-            categorieDepense.setTypeDepense(TypeDepense.Courante);
-            categorieDepenseDao.insert(categorieDepense);
-
-            categorieDepense = new CategorieDepense();
             categorieDepense.setNom("Scolarite");
             categorieDepense.setTypeDepense(TypeDepense.Courante);
             categorieDepenseDao.insert(categorieDepense);
@@ -247,26 +241,10 @@ public class AccueilActivity extends NavDrawerActivity {
             categorieDepense.setNom("Reparation");
             categorieDepense.setTypeDepense(TypeDepense.Occasionnelle);
             categorieDepenseDao.insert(categorieDepense);
-
         }
     }
-
-    private void remplirBDAffectation() {
-        if (affectationDao.count() == 0) {
-            Affectation affectation = new Affectation();
-            affectation.setNom("Famille");
-            affectationDao.insert(affectation);
-        }
-    }
-
 
     private void remplirBDExemple() {
         //todo
-      /*  remplirBDUtilisateur();
-        remplirBDContact();
-        remplirBDSmsAccident();
-        remplirBDSmsEnlevement();*/
-
     }
-
 }

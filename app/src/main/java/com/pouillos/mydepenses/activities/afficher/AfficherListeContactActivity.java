@@ -51,10 +51,10 @@ public class AfficherListeContactActivity extends NavDrawerActivity implements R
        // this.configureDrawerLayout();
       //  this.configureNavigationView();
         ButterKnife.bind(this);
-        activeUser = findActiveUser();
+      //  activeUser = findActiveUser();
 
        // traiterIntent();
-        listContactBD = contactDao.loadAll();
+       // listContactBD = contactDao.loadAll();
         if (listContactBD.size() == 0) {
             fabSave.hide();
         } else {
@@ -103,7 +103,7 @@ public class AfficherListeContactActivity extends NavDrawerActivity implements R
         Contact contact = adapter.getContact(position);
        // Toast.makeText(AfficherListeContactActivity.this, "a faire ", Toast.LENGTH_SHORT).show();
         //contact.delete();
-        ouvrirActiviteSuivante(AfficherListeContactActivity.this,AfficherContactActivity.class,"contactId",contact.getId(),true);
+      //  ouvrirActiviteSuivante(AfficherListeContactActivity.this,AfficherContactActivity.class,"contactId",contact.getId(),true);
 
         //listContactBD.remove(position);
         //adapter.notifyItemRemoved(position);
@@ -111,7 +111,7 @@ public class AfficherListeContactActivity extends NavDrawerActivity implements R
     
     @OnClick(R.id.fabAdd)
     public void setfabAddClick() {
-        ouvrirActiviteSuivante(AfficherListeContactActivity.this,AfficherContactActivity.class,true);
+   //     ouvrirActiviteSuivante(AfficherListeContactActivity.this,AfficherContactActivity.class,true);
     }
 
     @OnClick(R.id.fabSave)

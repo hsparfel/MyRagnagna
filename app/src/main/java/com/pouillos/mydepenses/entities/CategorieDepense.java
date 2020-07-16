@@ -6,15 +6,8 @@ import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.converter.PropertyConverter;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.pouillos.mydepenses.dao.DaoSession;
-import com.pouillos.mydepenses.dao.AffectationDao;
-import com.pouillos.mydepenses.dao.CategorieDepenseDao;
-
-import java.io.Serializable;
 
 @Entity
 public class CategorieDepense implements Comparable<CategorieDepense> {

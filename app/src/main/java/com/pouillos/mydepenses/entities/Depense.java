@@ -1,19 +1,20 @@
 package com.pouillos.mydepenses.entities;
 
-import com.pouillos.mydepenses.dao.ContactDao;
 import com.pouillos.mydepenses.dao.DaoSession;
-import com.pouillos.mydepenses.dao.HistoriqueSmsDao;
 
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.converter.PropertyConverter;
 
 import java.util.Date;
 import com.pouillos.mydepenses.dao.CategorieDepenseDao;
 import com.pouillos.mydepenses.dao.DepenseDao;
+import com.pouillos.mydepenses.enumeration.FrequenceDepense;
 
 @Entity
 public class Depense {
@@ -33,9 +34,20 @@ public class Depense {
     @NotNull
     private String dateString;
 
+    @NotNull
+    private int mois;
+
+    @NotNull
+    private int annee;
+
+    @Convert(converter = FrequenceDepenseConverter.class, columnType = Long.class)
+    private FrequenceDepense frequenceDepense;
+
     private boolean isRecurrent;
 
     private String detail;
+
+    private Double montant;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -45,15 +57,20 @@ public class Depense {
     @Generated(hash = 790387295)
     private transient DepenseDao myDao;
 
-    @Generated(hash = 796369934)
-    public Depense(Long id, long categorieDepenseId, @NotNull Date date,
-            @NotNull String dateString, boolean isRecurrent, String detail) {
+    @Generated(hash = 1320228324)
+    public Depense(Long id, long categorieDepenseId, @NotNull Date date, @NotNull String dateString,
+            int mois, int annee, FrequenceDepense frequenceDepense, boolean isRecurrent, String detail,
+            Double montant) {
         this.id = id;
         this.categorieDepenseId = categorieDepenseId;
         this.date = date;
         this.dateString = dateString;
+        this.mois = mois;
+        this.annee = annee;
+        this.frequenceDepense = frequenceDepense;
         this.isRecurrent = isRecurrent;
         this.detail = detail;
+        this.montant = montant;
     }
 
     @Generated(hash = 1285756665)
@@ -92,6 +109,30 @@ public class Depense {
         this.dateString = dateString;
     }
 
+    public int getMois() {
+        return this.mois;
+    }
+
+    public void setMois(int mois) {
+        this.mois = mois;
+    }
+
+    public int getAnnee() {
+        return this.annee;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
+
+    public FrequenceDepense getFrequenceDepense() {
+        return this.frequenceDepense;
+    }
+
+    public void setFrequenceDepense(FrequenceDepense frequenceDepense) {
+        this.frequenceDepense = frequenceDepense;
+    }
+
     public boolean getIsRecurrent() {
         return this.isRecurrent;
     }
@@ -108,6 +149,14 @@ public class Depense {
         this.detail = detail;
     }
 
+    public Double getMontant() {
+        return this.montant;
+    }
+
+    public void setMontant(Double montant) {
+        this.montant = montant;
+    }
+
     @Generated(hash = 1212057176)
     private transient Long categorieDepense__resolvedKey;
 
@@ -115,8 +164,7 @@ public class Depense {
     @Generated(hash = 1582863905)
     public CategorieDepense getCategorieDepense() {
         long __key = this.categorieDepenseId;
-        if (categorieDepense__resolvedKey == null
-                || !categorieDepense__resolvedKey.equals(__key)) {
+        if (categorieDepense__resolvedKey == null || !categorieDepense__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -188,8 +236,30 @@ public class Depense {
         myDao = daoSession != null ? daoSession.getDepenseDao() : null;
     }
 
+    public static class FrequenceDepenseConverter implements PropertyConverter<FrequenceDepense, Long> {
+        @Override
+        public FrequenceDepense convertToEntityProperty(Long databaseValue) {
+            if (databaseValue == null) {
+                return null;
+            }
+            for (FrequenceDepense frequenceDepense : FrequenceDepense.values()) {
+                if (frequenceDepense.id == databaseValue) {
+                    return frequenceDepense;
+                }
+            }
+            return FrequenceDepense.Default;
+        }
+
+        @Override
+        public Long convertToDatabaseValue(FrequenceDepense entityProperty) {
+            return entityProperty == null ? null : entityProperty.id;
+        }
+    }
 
 
-    
+
+
+
+
 
 }

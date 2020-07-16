@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.afficher.AfficherContactActivity"
+    tools:context=".activities.ajouter.AjouterCategorieDepenseActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Creer/Modifier Contact" />
+            android:text="Ajouter Categorie Depense" />
 
 
         <LinearLayout
@@ -42,6 +42,51 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:chipSpacingHorizontal="10dp">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipFixe"
+                        style="@style/Widget.MaterialComponents.Chip.Entry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Fixe"
+
+                        app:closeIconVisible="false" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCourante"
+                        style="@style/Widget.MaterialComponents.Chip.Entry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Courante"
+
+                        app:closeIconVisible="false" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipOccasionnelle"
+                        style="@style/Widget.MaterialComponents.Chip.Entry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Occasionnelle"
+
+                        app:closeIconVisible="false" />
+
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutName"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -51,7 +96,7 @@
                 android:hint="@string/text_name"
                 android:minWidth="250dip"
                 app:errorEnabled="true"
-                app:startIconDrawable="@drawable/outline_face_black_24dp">
+                app:startIconDrawable="@drawable/icons8_categories">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textName"
@@ -59,67 +104,17 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutPhone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabSave"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:hint="@string/text_phone"
-                android:minWidth="200dip"
-                app:errorEnabled="true"
-                app:startIconDrawable="@drawable/outline_phone_black_24dp">
+                android:layout_gravity="bottom|center"
+                android:layout_margin="16dip"
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="10"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textChoice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Type d'alerte:" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchAccident"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="150dip"
-                android:layout_gravity="center_horizontal"
-                android:text="Accident"/>
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchEnlevement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="150dip"
-                android:layout_gravity="center_horizontal"
-                android:text="Enlevement"/>
-
-
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabSave"
-                    style="@style/Widget.MaterialComponents.FloatingActionButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
-
-                    android:layout_margin="16dip"
-
-                    app:backgroundTint="@color/colorPrimary"
-                    app:srcCompat="@drawable/icons8_coche_24"
-                    app:tint="@android:color/white" />
-
-
-
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/outline_save_black_24dp"
+                app:tint="@android:color/white" />
 
         </LinearLayout>
 

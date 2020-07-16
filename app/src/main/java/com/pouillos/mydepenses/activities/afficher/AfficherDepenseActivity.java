@@ -1,6 +1,5 @@
 package com.pouillos.mydepenses.activities.afficher;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -15,8 +14,10 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.pouillos.mydepenses.R;
+import com.pouillos.mydepenses.activities.AccueilActivity;
 import com.pouillos.mydepenses.activities.NavDrawerActivity;
 import com.pouillos.mydepenses.entities.CategorieDepense;
+import com.pouillos.mydepenses.entities.Depense;
 import com.pouillos.mydepenses.enumeration.FrequenceDepense;
 import com.pouillos.mydepenses.enumeration.TypeDepense;
 import com.pouillos.mydepenses.utils.DateUtils;
@@ -57,10 +58,6 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
     @BindView(R.id.fabSave)
     FloatingActionButton fabSave;
 
-    List<TypeDepense> listeTypeDepense = new ArrayList<>();
-    TypeDepense typeDepenseSelected;
-
-
     List<CategorieDepense> listeCategorieDepense = new ArrayList<>();
     CategorieDepense categorieDepenseSelected;
     @BindView(R.id.selectCategorieDepense)
@@ -68,9 +65,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
     @BindView(R.id.listCategorieDepense)
     TextInputLayout listCategorieDepense;
 
-    List<FrequenceDepense> listeFrequenceDepense = new ArrayList<>();
     FrequenceDepense frequenceDepenseSelected;
-
 
     @BindView(R.id.chipFixe)
     Chip chipFixe;
@@ -103,22 +98,15 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_afficher_depense);
-        // 6 - Configure all views
 
         ButterKnife.bind(this);
-      /*  activeUser = findActiveUser();
-        List<Contact> listContact = contactDao.loadAll();
-        if (listContact.size()>0){*/
-           //  6 - Configure all views
+
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
-        //}
 
         //limiter digits du montant
         textMontant.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(5, 2)});
-
-      //  traiterIntent();
 
         textDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -136,7 +124,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
 
         date = new Date();
         textDate.setText(DateUtils.ecrireDate(date));
-        
+
 
     }
 
@@ -242,6 +230,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipPonctuel.isChecked()) {
             Snackbar.make(chipPonctuel, FrequenceDepense.Ponctuel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipPonctuel).show();
             hideAllChipsFrequenceExceptOne(chipPonctuel);
+            frequenceDepenseSelected = FrequenceDepense.Ponctuel;
         } else {
             showAllChipsFrequence();
         }
@@ -251,6 +240,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipHebdomadaire.isChecked()) {
             Snackbar.make(chipHebdomadaire, FrequenceDepense.Hebdomadaire.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipHebdomadaire).show();
             hideAllChipsFrequenceExceptOne(chipHebdomadaire);
+            frequenceDepenseSelected = FrequenceDepense.Hebdomadaire;
         } else {
             showAllChipsFrequence();
         }
@@ -261,6 +251,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipBimensuel.isChecked()) {
             Snackbar.make(chipBimensuel, FrequenceDepense.Bimensuel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipBimensuel).show();
             hideAllChipsFrequenceExceptOne(chipBimensuel);
+            frequenceDepenseSelected = FrequenceDepense.Bimensuel;
         } else {
             showAllChipsFrequence();
         }
@@ -271,6 +262,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipMensuel.isChecked()) {
             Snackbar.make(chipMensuel, FrequenceDepense.Mensuel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipMensuel).show();
             hideAllChipsFrequenceExceptOne(chipMensuel);
+            frequenceDepenseSelected = FrequenceDepense.Mensuel;
         } else {
             showAllChipsFrequence();
         }
@@ -281,6 +273,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipBimestriel.isChecked()) {
             Snackbar.make(chipBimestriel, FrequenceDepense.Bimestriel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipBimestriel).show();
             hideAllChipsFrequenceExceptOne(chipBimestriel);
+            frequenceDepenseSelected = FrequenceDepense.Bimestriel;
         } else {
             showAllChipsFrequence();
         }
@@ -291,6 +284,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipTrimestriel.isChecked()) {
             Snackbar.make(chipTrimestriel, FrequenceDepense.Trimestriel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipTrimestriel).show();
             hideAllChipsFrequenceExceptOne(chipTrimestriel);
+            frequenceDepenseSelected = FrequenceDepense.Trimestriel;
         } else {
             showAllChipsFrequence();
         }
@@ -301,6 +295,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipQuadrimestriel.isChecked()) {
             Snackbar.make(chipQuadrimestriel, FrequenceDepense.Quadrimestriel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipQuadrimestriel).show();
             hideAllChipsFrequenceExceptOne(chipQuadrimestriel);
+            frequenceDepenseSelected = FrequenceDepense.Quadrimestriel;
         } else {
             showAllChipsFrequence();
         }
@@ -311,6 +306,7 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipBiannuel.isChecked()) {
             Snackbar.make(chipBiannuel, FrequenceDepense.Biannuel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipBiannuel).show();
             hideAllChipsFrequenceExceptOne(chipBiannuel);
+            frequenceDepenseSelected = FrequenceDepense.Biannuel;
         } else {
             showAllChipsFrequence();
         }
@@ -321,14 +317,12 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         if (chipAnnuel.isChecked()) {
             Snackbar.make(chipAnnuel, FrequenceDepense.Annuel.detail, Snackbar.LENGTH_SHORT).setAnchorView(chipAnnuel).show();
             hideAllChipsFrequenceExceptOne(chipAnnuel);
+            frequenceDepenseSelected = FrequenceDepense.Annuel;
         } else {
             showAllChipsFrequence();
         }
 
     }
-
-
-
 
     @OnClick(R.id.chipFixe)
     public void setChipFixeClick() {
@@ -404,88 +398,60 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
 
     }
 
-
-
-    public void traiterIntent() {
-        Intent intent = getIntent();
-       /* if (intent.hasExtra("contactId")) {
-            Long contactId = intent.getLongExtra("contactId", 0);
-            currentContact = contactDao.load(contactId);
-
-            //todo afficher toutes les données
-            textName.setText(currentContact.getNom());
-            textPhone.setText(currentContact.getTelephone());
-            //switchAccident.setChecked(currentContact.i); etc...
-            switchAccident.setChecked(currentContact.getIsContactAccident());
-            switchEnlevement.setChecked(currentContact.getIsContactEnlevement());
-        } else {
-            currentContact = new Contact();
-        }*/
-    }
-
     @OnClick(R.id.fabSave)
     public void setfabSaveClick() {
         if (isFullRempli()) {
-           // currentContact.setNom(textName.getText().toString());
-           // currentContact.setTelephone(textPhone.getText().toString());
-            //currentContact.set(textTown.getText().toString());
-            //currentContact.setTelephone(textPhone.getText().toString());
-
-         /*   if (switchAccident.isChecked()) {
-                currentContact.setIsContactAccident(true);
+            if (chipCourante.isChecked() || chipOccasionnelle.isChecked()) {
+                Depense depense = new Depense();
+                depense.setCategorieDepense(categorieDepenseSelected);
+                depense.setMontant(Double.parseDouble(textMontant.getText().toString()));
+                depense.setDate(date);
+                depense.setDateString(DateUtils.ecrireDate(date));
+                depense.setMois(Integer.parseInt(DateUtils.recupMois(date)));
+                depense.setAnnee(Integer.parseInt(DateUtils.recupAnnee(date)));
+                depense.setDetail(textDetail.getText().toString());
+                depenseDao.insert(depense);
+            } else if (chipFixe.isChecked()) {
+                Depense depense = new Depense();
+                depense.setCategorieDepense(categorieDepenseSelected);
+                depense.setFrequenceDepense(frequenceDepenseSelected);
+                depense.setIsRecurrent(switchRecurrent.isChecked());
+                depense.setMontant(Double.parseDouble(textMontant.getText().toString()));
+                depense.setDate(date);
+                depense.setDateString(DateUtils.ecrireDate(date));
+                depense.setMois(Integer.parseInt(DateUtils.recupMois(date)));
+                depense.setAnnee(Integer.parseInt(DateUtils.recupAnnee(date)));
+                depense.setDetail(textDetail.getText().toString());
+                depenseDao.insert(depense);
             }
-            if (switchEnlevement.isChecked()) {
-                currentContact.setIsContactEnlevement(true);
-            }
-            contactDao.insert(currentContact);*/
-
-
-            //enregistrer sms perso/defaut
-         /*   if (currentContact.getIsContactAccident()){
-                SmsAccident smsAccident = new SmsAccident();
-                smsAccident.setContactId(currentContact.getId());
-                smsAccident.setMessage(recupererParametres().getSmsAccident());
-                smsAccidentDao.insert(smsAccident);
-            }
-            if (currentContact.getIsContactEnlevement()){
-                SmsEnlevement smsEnlevement = new SmsEnlevement();
-                smsEnlevement.setContactId(currentContact.getId());
-                smsEnlevement.setMessage(recupererParametres().getSmsEnlevement());
-                smsEnlevementDao.insert(smsEnlevement);
-            }
-
-            if (switchAccident.isChecked()) {
-                envoyerSms(currentContact,recupererParametres().getSmsInformationAccidentDebut());
-            }
-            if (switchEnlevement.isChecked()) {
-                envoyerSms(currentContact,recupererParametres().getSmsInformationEnlevementDebut());
-            }*/
-
-
-            //ouvrirActiviteSuivante(AfficherDepenseActivity.this,AfficherListeContactActivity.class,true);
+            ouvrirActiviteSuivante(AfficherDepenseActivity.this, AccueilActivity.class,false);
         }
     }
 
     private boolean isFullRempli() {
         boolean bool = true;
-     /*   if (!isFilled(textName)) {
-            textName.setError("Obligatoire");
+        if (!chipFixe.isChecked() && !chipCourante.isChecked() && !chipOccasionnelle.isChecked()) {
+            bool = false;
+            Snackbar.make(chipFixe, "Veuillez Selectionner un type de dépense", Snackbar.LENGTH_SHORT).setAnchorView(chipFixe).show();
+        }
+        if (!isFilled(selectCategorieDepense)) {
+            bool = false;
+            listCategorieDepense.setError("Obligatoire");
+        }
+        if (chipFixe.isChecked() && !chipPonctuel.isChecked() && !chipHebdomadaire.isChecked() && !chipBimensuel.isChecked()
+        && !chipMensuel.isChecked() && !chipBimestriel.isChecked() && !chipTrimestriel.isChecked()
+        && !chipQuadrimestriel.isChecked() && !chipBiannuel.isChecked() && !chipAnnuel.isChecked()) {
+            bool = false;
+            Snackbar.make(chipPonctuel, "Veuillez Selectionner une frequence de dépense", Snackbar.LENGTH_SHORT).setAnchorView(chipPonctuel).show();
+        }
+        if (!isFilled(textMontant)) {
+            textMontant.setError("Obligatoire");
             bool = false;
         }
-
-        if (!isFilled(textPhone)) {
-            textPhone.setError("Obligatoire");
+        if (!isFilled(textDate)) {
+            textDate.setError("Obligatoire");
             bool = false;
         }
-        if (!isValidTel(textPhone)) {
-            textPhone.setError("Saisie Non Valide  (10 chiffres)");
-            bool = false;
-        }*/
-
-       /* if (!switchAccident.isChecked() && !switchEnlevement.isChecked()) {
-            Toast.makeText(this, "Veuillez selectionner au moins un type d'alerte", Toast.LENGTH_LONG).show();
-            bool = false;
-        }*/
         return bool;
     }
 
@@ -493,5 +459,4 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         categorieDepenseSelected = listeCategorieDepense.get(position);
     }
-
 }

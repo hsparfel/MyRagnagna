@@ -1,4 +1,4 @@
-package com.pouillos.mysosapp;
+package com.pouillos.mydepenses;
 
 import android.content.Context;
 
