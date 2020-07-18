@@ -49,6 +49,8 @@ public class Depense {
 
     private Double montant;
 
+    private boolean isBudgeted;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -57,10 +59,10 @@ public class Depense {
     @Generated(hash = 790387295)
     private transient DepenseDao myDao;
 
-    @Generated(hash = 1320228324)
+    @Generated(hash = 580271430)
     public Depense(Long id, long categorieDepenseId, @NotNull Date date, @NotNull String dateString,
             int mois, int annee, FrequenceDepense frequenceDepense, boolean isRecurrent, String detail,
-            Double montant) {
+            Double montant, boolean isBudgeted) {
         this.id = id;
         this.categorieDepenseId = categorieDepenseId;
         this.date = date;
@@ -71,6 +73,7 @@ public class Depense {
         this.isRecurrent = isRecurrent;
         this.detail = detail;
         this.montant = montant;
+        this.isBudgeted = isBudgeted;
     }
 
     @Generated(hash = 1285756665)
@@ -155,6 +158,14 @@ public class Depense {
 
     public void setMontant(Double montant) {
         this.montant = montant;
+    }
+
+    public boolean getIsBudgeted() {
+        return this.isBudgeted;
+    }
+
+    public void setIsBudgeted(boolean isBudgeted) {
+        this.isBudgeted = isBudgeted;
     }
 
     @Generated(hash = 1212057176)

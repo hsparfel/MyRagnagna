@@ -23,6 +23,10 @@
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.afficher.AfficherListeDepenseActivity"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.afficher.AfficherListeBudgetMensuelActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.afficher.AfficherListeBudgetAnnuelActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

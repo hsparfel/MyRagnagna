@@ -10,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pouillos.mydepenses.R;
-import com.pouillos.mydepenses.activities.AccueilActivity;
 import com.pouillos.mydepenses.activities.NavDrawerActivity;
-import com.pouillos.mydepenses.activities.ajouter.AjouterCategorieDepenseActivity;
-import com.pouillos.mydepenses.entities.Depense;
-import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterDepense;
-import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterDepense;
+import com.pouillos.mydepenses.entities.BudgetMensuel;
+import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterBudgetMensuel;
 import com.pouillos.mydepenses.utils.ItemClickSupport;
+
 
 import java.util.List;
 
@@ -25,27 +23,25 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import icepick.Icepick;
 
-public class AfficherListeDepenseActivity extends NavDrawerActivity implements RecyclerAdapterDepense.Listener {
+public class AfficherListeBudgetMensuelActivity extends NavDrawerActivity implements RecyclerAdapterBudgetMensuel.Listener {
 
 
 
-    @BindView(R.id.fabAdd)
-    FloatingActionButton fabAdd;
 
 
-    private List<Depense> listDepense;
-    private List<Depense> listDepenseBD;
+    private List<BudgetMensuel> listBudgetMensuel;
+    private List<BudgetMensuel> listBudgetMensuelBD;
 
-    private RecyclerAdapterDepense adapter;
+    private RecyclerAdapterBudgetMensuel adapter;
 
-    @BindView(R.id.listeDepense)
-    RecyclerView listeDepense;
+    @BindView(R.id.listeBudgetMensuel)
+    RecyclerView listeBudgetMensuel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
-        setContentView(R.layout.activity_afficher_liste_depense);
+        setContentView(R.layout.activity_afficher_liste_budget_mensuel);
         // 6 - Configure all views
       //  this.configureToolBar();
        // this.configureDrawerLayout();
@@ -54,7 +50,7 @@ public class AfficherListeDepenseActivity extends NavDrawerActivity implements R
       //  activeUser = findActiveUser();
 
        // traiterIntent();
-        listDepenseBD = depenseDao.loadAll();
+        listBudgetMensuelBD = budgetMensuelDao.loadAll();
 
             // 6 - Configure all views
             this.configureToolBar();
@@ -67,16 +63,16 @@ public class AfficherListeDepenseActivity extends NavDrawerActivity implements R
     }
 
     public void configureRecyclerView() {
-        adapter = new RecyclerAdapterDepense(listDepenseBD,this);
+        adapter = new RecyclerAdapterBudgetMensuel(listBudgetMensuelBD,this);
         // 3.3 - Attach the adapter to the recyclerview to populate items
-        listeDepense.setAdapter(adapter);
+        listeBudgetMensuel.setAdapter(adapter);
         // 3.4 - Set layout manager to position the items
         //this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listeDepense.setLayoutManager(new LinearLayoutManager(this));
+        listeBudgetMensuel.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void configureOnClickRecyclerView(){
-        ItemClickSupport.addTo(listeDepense, R.layout.recycler_list_depense)
+        ItemClickSupport.addTo(listeBudgetMensuel, R.layout.recycler_list_depense)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -86,20 +82,16 @@ public class AfficherListeDepenseActivity extends NavDrawerActivity implements R
     }
 
     @Override
-    public void onClickDepenseButton(int position) {
-        Depense depense = adapter.getDepense(position);
-        Toast.makeText(AfficherListeDepenseActivity.this, "a faire click depense", Toast.LENGTH_SHORT).show();
-        //depense.delete();
-        ouvrirActiviteSuivante(AfficherListeDepenseActivity.this,AfficherDepenseActivity.class,"depenseId",depense.getId(),true);
+    public void onClickBudgetMensuelButton(int position) {
+        BudgetMensuel budgetMensuel = adapter.getBudgetMensuel(position);
+        Toast.makeText(AfficherListeBudgetMensuelActivity.this, "a faire ", Toast.LENGTH_SHORT).show();
+        //budgetMensuel.delete();
+      //  ouvrirActiviteSuivante(AfficherListeBudgetMensuelActivity.this,AfficherBudgetMensuelActivity.class,"budgetMensuelId",budgetMensuel.getId(),true);
 
-        //listDepenseBD.remove(position);
+        //listBudgetMensuelBD.remove(position);
         //adapter.notifyItemRemoved(position);
     }
     
-    @OnClick(R.id.fabAdd)
-    public void setfabAddClick() {
-        ouvrirActiviteSuivante(AfficherListeDepenseActivity.this, AfficherDepenseActivity.class,false);
-    }
 
 
 }

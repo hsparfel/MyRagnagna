@@ -143,26 +143,6 @@
 
                         app:closeIconVisible="false" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipHebdomadaire"
-                        style="@style/Widget.MaterialComponents.Chip.Entry"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Hebdomadaire"
-
-                        app:closeIconVisible="false" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipBimensuel"
-                        style="@style/Widget.MaterialComponents.Chip.Entry"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Bimensuel"
-
-                        app:closeIconVisible="false" />
-
                     <!--    </LinearLayout>
 
                     <LinearLayout
@@ -219,12 +199,12 @@
                         app:closeIconVisible="false" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chipBiannuel"
+                        android:id="@+id/chipSemestriel"
                         style="@style/Widget.MaterialComponents.Chip.Entry"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Biannuel"
+                        android:text="Semestriel"
 
                         app:closeIconVisible="false" />
 

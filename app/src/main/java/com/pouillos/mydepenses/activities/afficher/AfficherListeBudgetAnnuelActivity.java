@@ -8,44 +8,37 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pouillos.mydepenses.R;
-import com.pouillos.mydepenses.activities.AccueilActivity;
 import com.pouillos.mydepenses.activities.NavDrawerActivity;
-import com.pouillos.mydepenses.activities.ajouter.AjouterCategorieDepenseActivity;
-import com.pouillos.mydepenses.entities.Depense;
-import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterDepense;
-import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterDepense;
+import com.pouillos.mydepenses.entities.BudgetAnnuel;
+import com.pouillos.mydepenses.recycler.adapter.RecyclerAdapterBudgetAnnuel;
 import com.pouillos.mydepenses.utils.ItemClickSupport;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import icepick.Icepick;
 
-public class AfficherListeDepenseActivity extends NavDrawerActivity implements RecyclerAdapterDepense.Listener {
+public class AfficherListeBudgetAnnuelActivity extends NavDrawerActivity implements RecyclerAdapterBudgetAnnuel.Listener {
 
 
 
-    @BindView(R.id.fabAdd)
-    FloatingActionButton fabAdd;
 
 
-    private List<Depense> listDepense;
-    private List<Depense> listDepenseBD;
+    private List<BudgetAnnuel> listBudgetAnnuel;
+    private List<BudgetAnnuel> listBudgetAnnuelBD;
 
-    private RecyclerAdapterDepense adapter;
+    private RecyclerAdapterBudgetAnnuel adapter;
 
-    @BindView(R.id.listeDepense)
-    RecyclerView listeDepense;
+    @BindView(R.id.listeBudgetAnnuel)
+    RecyclerView listeBudgetAnnuel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
-        setContentView(R.layout.activity_afficher_liste_depense);
+        setContentView(R.layout.activity_afficher_liste_budget_annuel);
         // 6 - Configure all views
       //  this.configureToolBar();
        // this.configureDrawerLayout();
@@ -54,7 +47,7 @@ public class AfficherListeDepenseActivity extends NavDrawerActivity implements R
       //  activeUser = findActiveUser();
 
        // traiterIntent();
-        listDepenseBD = depenseDao.loadAll();
+        listBudgetAnnuelBD = budgetAnnuelDao.loadAll();
 
             // 6 - Configure all views
             this.configureToolBar();
@@ -67,16 +60,16 @@ public class AfficherListeDepenseActivity extends NavDrawerActivity implements R
     }
 
     public void configureRecyclerView() {
-        adapter = new RecyclerAdapterDepense(listDepenseBD,this);
+        adapter = new RecyclerAdapterBudgetAnnuel(listBudgetAnnuelBD,this);
         // 3.3 - Attach the adapter to the recyclerview to populate items
-        listeDepense.setAdapter(adapter);
+        listeBudgetAnnuel.setAdapter(adapter);
         // 3.4 - Set layout manager to position the items
         //this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listeDepense.setLayoutManager(new LinearLayoutManager(this));
+        listeBudgetAnnuel.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void configureOnClickRecyclerView(){
-        ItemClickSupport.addTo(listeDepense, R.layout.recycler_list_depense)
+        ItemClickSupport.addTo(listeBudgetAnnuel, R.layout.recycler_list_depense)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -86,20 +79,16 @@ public class AfficherListeDepenseActivity extends NavDrawerActivity implements R
     }
 
     @Override
-    public void onClickDepenseButton(int position) {
-        Depense depense = adapter.getDepense(position);
-        Toast.makeText(AfficherListeDepenseActivity.this, "a faire click depense", Toast.LENGTH_SHORT).show();
-        //depense.delete();
-        ouvrirActiviteSuivante(AfficherListeDepenseActivity.this,AfficherDepenseActivity.class,"depenseId",depense.getId(),true);
+    public void onClickBudgetAnnuelButton(int position) {
+        BudgetAnnuel budgetAnnuel = adapter.getBudgetAnnuel(position);
+        Toast.makeText(AfficherListeBudgetAnnuelActivity.this, "a faire ", Toast.LENGTH_SHORT).show();
+        //budgetAnnuel.delete();
+      //  ouvrirActiviteSuivante(AfficherListeBudgetAnnuelActivity.this,AfficherBudgetAnnuelActivity.class,"budgetAnnuelId",budgetAnnuel.getId(),true);
 
-        //listDepenseBD.remove(position);
+        //listBudgetAnnuelBD.remove(position);
         //adapter.notifyItemRemoved(position);
     }
     
-    @OnClick(R.id.fabAdd)
-    public void setfabAddClick() {
-        ouvrirActiviteSuivante(AfficherListeDepenseActivity.this, AfficherDepenseActivity.class,false);
-    }
 
 
 }

@@ -26,8 +26,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.pouillos.mydepenses.R;
 import com.pouillos.mydepenses.activities.afficher.AfficherDepenseActivity;
+import com.pouillos.mydepenses.activities.afficher.AfficherListeBudgetAnnuelActivity;
+import com.pouillos.mydepenses.activities.afficher.AfficherListeBudgetMensuelActivity;
 import com.pouillos.mydepenses.activities.afficher.AfficherListeDepenseActivity;
 import com.pouillos.mydepenses.activities.ajouter.AjouterCategorieDepenseActivity;
+import com.pouillos.mydepenses.dao.BudgetAnnuelDao;
+import com.pouillos.mydepenses.dao.BudgetDao;
+import com.pouillos.mydepenses.dao.BudgetMensuelDao;
 import com.pouillos.mydepenses.dao.CategorieDepenseDao;
 import com.pouillos.mydepenses.dao.DaoMaster;
 import com.pouillos.mydepenses.dao.DaoSession;
@@ -61,7 +66,9 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     protected CategorieDepenseDao categorieDepenseDao;
     protected DepenseDao depenseDao;
-
+    protected BudgetDao budgetDao;
+    protected BudgetMensuelDao budgetMensuelDao;
+    protected BudgetAnnuelDao budgetAnnuelDao;
 
 
     @Override
@@ -72,6 +79,9 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         initialiserDao();
         categorieDepenseDao = daoSession.getCategorieDepenseDao();
         depenseDao = daoSession.getDepenseDao();
+        budgetDao = daoSession.getBudgetDao();
+        budgetMensuelDao = daoSession.getBudgetMensuelDao();
+        budgetAnnuelDao = daoSession.getBudgetAnnuelDao();
 
     }
 
@@ -113,6 +123,16 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
             case R.id.activity_main_drawer_lister_depenses:
                 myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeDepenseActivity.class);
+                startActivity(myProfilActivity);
+                break;
+
+            case R.id.activity_main_drawer_lister_budget_mensuel:
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeBudgetMensuelActivity.class);
+                startActivity(myProfilActivity);
+                break;
+
+            case R.id.activity_main_drawer_lister_budget_annuel:
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeBudgetAnnuelActivity.class);
                 startActivity(myProfilActivity);
                 break;
 

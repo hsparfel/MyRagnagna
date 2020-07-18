@@ -25,9 +25,17 @@
             <group android:checkableBehavior="single">
 
                 <item
-                    android:id="@+id/activity_main_drawer_lister_depenses"
+                android:id="@+id/activity_main_drawer_lister_depenses"
+                android:icon="@drawable/icons8_liste"
+                android:title="Lister Depenses" />
+                <item
+                    android:id="@+id/activity_main_drawer_lister_budget_mensuel"
                     android:icon="@drawable/icons8_liste"
-                    android:title="Lister Depenses" />
+                    android:title="Lister Budget Mensuel" />
+                <item
+                    android:id="@+id/activity_main_drawer_lister_budget_annuel"
+                    android:icon="@drawable/icons8_liste"
+                    android:title="Lister Budget Annuel" />
 
             </group>
         </menu>

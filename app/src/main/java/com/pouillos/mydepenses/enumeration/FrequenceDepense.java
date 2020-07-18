@@ -9,14 +9,12 @@ public enum FrequenceDepense {
     //Objets directement construits
     Default(0,"?", "?"),
     Ponctuel(1,"Ponctuel","Une fois"),
-    Hebdomadaire(2,"Hebdomadaire","Toutes les semaines"),
-    Bimensuel(3,"Bimensuel","Toutes les 2 semaines"),
-    Mensuel(4,"Mensuel","Tous les mois"),
-    Bimestriel(5,"Bimestriel","Tous les 2 mois"),
-    Trimestriel(6,"Trimestriel","Tous les 3 mois"),
-    Quadrimestriel(7,"Quadrimestriel","Tous les 4 mois"),
-    Biannuel(8,"Biannuel","Tous les 6 mois"),
-    Annuel(9,"Annuel","Tous les ans");
+    Mensuel(4,"Mensuel","durant 1 mois"),
+    Bimestriel(5,"Bimestriel","durant 2 mois"),
+    Trimestriel(6,"Trimestriel","durant 3 mois"),
+    Quadrimestriel(7,"Quadrimestriel","durant 4 mois"),
+    Semestriel(8,"Semestriel","durant 6 mois"),
+    Annuel(9,"Annuel","durant 12 mois");
 
     public long id;
     public String name = "";
