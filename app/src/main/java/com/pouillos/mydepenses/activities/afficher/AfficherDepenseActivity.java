@@ -60,6 +60,8 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
 
     @BindView(R.id.fabSave)
     FloatingActionButton fabSave;
+    @BindView(R.id.fabDelete)
+    FloatingActionButton fabDelete;
 
     List<CategorieDepense> listeCategorieDepense = new ArrayList<>();
     CategorieDepense categorieDepenseSelected;
@@ -124,12 +126,14 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
         date = new Date();
         textDate.setText(DateUtils.ecrireDate(date));
 
+        fabDelete.hide();
         traiterIntent();
     }
 
     private void traiterIntent() {
         Intent intent = getIntent();
         if (intent.hasExtra("depenseId")) {
+            fabDelete.show();
             Long depenseId = intent.getLongExtra("depenseId", 0);
             currentDepense = depenseDao.load(depenseId);
 
@@ -536,6 +540,13 @@ public class AfficherDepenseActivity extends NavDrawerActivity implements Adapte
             }
             ouvrirActiviteSuivante(AfficherDepenseActivity.this, AccueilActivity.class,false);
         }
+    }
+
+    @OnClick(R.id.fabDelete)
+    public void setfabDeleteClick() {
+        nettoyerBudget(currentDepense);
+        depenseDao.delete(currentDepense);
+        ouvrirActiviteSuivante(AfficherDepenseActivity.this, AccueilActivity.class,false);
     }
 
     private void nettoyerBudget(Depense depense) {

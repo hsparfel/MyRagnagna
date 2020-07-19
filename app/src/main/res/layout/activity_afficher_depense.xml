@@ -288,24 +288,38 @@
                </com.google.android.material.textfield.TextInputLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabSave"
+                    style="@style/Widget.MaterialComponents.FloatingActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_margin="16dip"
 
+                    app:backgroundTint="@color/colorPrimary"
+                    app:srcCompat="@drawable/outline_save_black_24dp"
+                    app:tint="@android:color/white" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabDelete"
+                    style="@style/Widget.MaterialComponents.FloatingActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_margin="16dip"
 
+                    app:backgroundTint="@color/colorPrimary"
+                    app:srcCompat="@drawable/outline_delete_black_24dp"
+                    app:tint="@android:color/white" />
+            </LinearLayout>
 
-               <com.google.android.material.floatingactionbutton.FloatingActionButton
-                   android:id="@+id/fabSave"
-                   style="@style/Widget.MaterialComponents.FloatingActionButton"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="bottom|center"
-                   android:layout_margin="16dip"
-
-                   app:backgroundTint="@color/colorPrimary"
-                   app:srcCompat="@drawable/outline_save_black_24dp"
-                   app:tint="@android:color/white" />
-
-           </LinearLayout>
+        </LinearLayout>
 
 
        </LinearLayout>
