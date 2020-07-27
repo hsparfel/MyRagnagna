@@ -5,16 +5,14 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class BudgetAnnuel {
+public class Regle implements Comparable<Regle>{
 
     @Id
     private Long id;
-
-    @NotNull
-    private Double montant;
 
     @NotNull
     private Date date;
@@ -22,21 +20,19 @@ public class BudgetAnnuel {
     @NotNull
     private String dateString;
 
-    @NotNull
-    private int annee;
+    private int intervalle;
 
-    @Generated(hash = 2073552243)
-    public BudgetAnnuel(Long id, @NotNull Double montant, @NotNull Date date,
-            @NotNull String dateString, int annee) {
+    @Generated(hash = 837199643)
+    public Regle(Long id, @NotNull Date date, @NotNull String dateString,
+            int intervalle) {
         this.id = id;
-        this.montant = montant;
         this.date = date;
         this.dateString = dateString;
-        this.annee = annee;
+        this.intervalle = intervalle;
     }
 
-    @Generated(hash = 160429945)
-    public BudgetAnnuel() {
+    @Generated(hash = 1126260775)
+    public Regle() {
     }
 
     public Long getId() {
@@ -45,14 +41,6 @@ public class BudgetAnnuel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Double getMontant() {
-        return this.montant;
-    }
-
-    public void setMontant(Double montant) {
-        this.montant = montant;
     }
 
     public Date getDate() {
@@ -71,16 +59,16 @@ public class BudgetAnnuel {
         this.dateString = dateString;
     }
 
-    public int getAnnee() {
-        return this.annee;
+    public int getIntervalle() {
+        return this.intervalle;
     }
 
-    public void setAnnee(int annee) {
-        this.annee = annee;
+    public void setIntervalle(int intervalle) {
+        this.intervalle = intervalle;
     }
 
-
-
-    
-
+    @Override
+    public int compareTo(Regle o) {
+        return o.date.compareTo(this.date);
+    }
 }

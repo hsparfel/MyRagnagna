@@ -8,13 +8,10 @@ import org.greenrobot.greendao.annotation.NotNull;
 import java.util.Date;
 
 @Entity
-public class BudgetMensuel {
+public class ReglePrevisionnelle implements Comparable<ReglePrevisionnelle>{
 
     @Id
     private Long id;
-
-    @NotNull
-    private Double montant;
 
     @NotNull
     private Date date;
@@ -22,25 +19,16 @@ public class BudgetMensuel {
     @NotNull
     private String dateString;
 
-    @NotNull
-    private int mois;
-
-    @NotNull
-    private int annee;
-
-    @Generated(hash = 1588531276)
-    public BudgetMensuel(Long id, @NotNull Double montant, @NotNull Date date,
-            @NotNull String dateString, int mois, int annee) {
+    @Generated(hash = 330013291)
+    public ReglePrevisionnelle(Long id, @NotNull Date date,
+            @NotNull String dateString) {
         this.id = id;
-        this.montant = montant;
         this.date = date;
         this.dateString = dateString;
-        this.mois = mois;
-        this.annee = annee;
     }
 
-    @Generated(hash = 483203538)
-    public BudgetMensuel() {
+    @Generated(hash = 568916734)
+    public ReglePrevisionnelle() {
     }
 
     public Long getId() {
@@ -49,14 +37,6 @@ public class BudgetMensuel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Double getMontant() {
-        return this.montant;
-    }
-
-    public void setMontant(Double montant) {
-        this.montant = montant;
     }
 
     public Date getDate() {
@@ -75,25 +55,9 @@ public class BudgetMensuel {
         this.dateString = dateString;
     }
 
-    public int getMois() {
-        return this.mois;
+    @Override
+    public int compareTo(ReglePrevisionnelle o) {
+        return this.date.compareTo(o.date);
     }
-
-    public void setMois(int mois) {
-        this.mois = mois;
-    }
-
-    public int getAnnee() {
-        return this.annee;
-    }
-
-    public void setAnnee(int annee) {
-        this.annee = annee;
-    }
-
-
-    
-
-    
 
 }

@@ -1,9 +1,12 @@
 package com.pouillos.myragnagna.utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class DateUtils {
@@ -39,7 +42,6 @@ public class DateUtils {
         int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
 
-
         String dateMaj = "";
         dateMaj += mapJours.get(dayOfWeek)+" ";
         dateMaj += day+" ";
@@ -67,59 +69,15 @@ public class DateUtils {
 
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-       // int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-     //   int day = c.get(Calendar.DAY_OF_MONTH);
         int month = c.get(Calendar.MONTH);
-
-
         String dateMaj = "";
-       // dateMaj += mapJours.get(dayOfWeek)+" ";
-     //   dateMaj += day+" ";
         dateMaj += mapMois.get(month)+" ";
         dateMaj += date.getYear()+1900;
-
         return dateMaj;
     }
-
-    public static String recupJour(Date date) {
-        String pattern = "dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String dateMaj = simpleDateFormat.format(date);
-        return dateMaj;
-    }
-
-    public static String recupMois(Date date) {
-        String pattern = "MM";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String dateMaj = simpleDateFormat.format(date);
-        return dateMaj;
-    }
-
-    public static String recupAnnee(Date date) {
-        String pattern = "yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String dateMaj = simpleDateFormat.format(date);
-        return dateMaj;
-    }
-
-
 
     public static String ecrireDate(Date date) {
         String pattern = "dd/MM/yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String dateMaj = simpleDateFormat.format(date);
-        return dateMaj;
-    }
-
-    public static String ecrireAnnee(Date date) {
-        String pattern = "yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String dateMaj = simpleDateFormat.format(date);
-        return dateMaj;
-    }
-
-    public static String ecrireHeure(Date date) {
-        String pattern = "HH:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String dateMaj = simpleDateFormat.format(date);
         return dateMaj;
@@ -132,39 +90,6 @@ public class DateUtils {
         return dateMaj;
     }
 
-    public static Date ajouterSeconde(Date date, int nbSeconde) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.SECOND,nbSeconde);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
-    }
-
-    public static Date ajouterMinute(Date date, int nbMinute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.MINUTE,nbMinute);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
-    }
-
-    public static Date ajouterHeure(Date date, int nbHeures) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.HOUR_OF_DAY,nbHeures);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
-    }
-
-    public static Date ajouterJour(Date date, int nbJours) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_WEEK,nbJours);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
-    }
-
-
     public static Date ajouterJourArrondi(Date date, int nbJours, int heure) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -175,35 +100,32 @@ public class DateUtils {
         return dateCalculee;
     }
 
-    public static Date ajouterSemaine(Date date, int nbSemaines) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.WEEK_OF_MONTH,nbSemaines);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
+    public static double getDaysBetweenDates(Date theEarlierDate, Date theLaterDate) {
+        double result = Double.POSITIVE_INFINITY;
+        if (theEarlierDate != null && theLaterDate != null) {
+            final long MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+            Calendar aCal = Calendar.getInstance();
+            aCal.setTime(theEarlierDate);
+            long aFromOffset = aCal.get(Calendar.DST_OFFSET);
+            aCal.setTime(theLaterDate);
+            long aToOffset = aCal.get(Calendar.DST_OFFSET);
+            long aDayDiffInMili = (theLaterDate.getTime() + aToOffset) - (theEarlierDate.getTime() + aFromOffset);
+            result = ((double) aDayDiffInMili / MILLISECONDS_PER_DAY);
+        }
+        return result;
     }
 
-    public static Date ajouterMois(Date date, int nbMois) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.MONTH,nbMois);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
-    }
-
-    public static Date ajouterAnnee(Date date, int nbAnnees) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.YEAR,nbAnnees);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
-    }
-
-    public static Date dateDebutMois(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        Date dateCalculee = calendar.getTime();
-        return dateCalculee;
+    public static Date creerDateFromString(String dateString) {
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        try {
+            date = format.parse(dateString);
+            date.setHours(0);
+            date.setMinutes(0);
+            date.setSeconds(0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

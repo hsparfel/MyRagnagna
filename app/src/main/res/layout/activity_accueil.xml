@@ -46,8 +46,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp" />
 
+
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAddDepense"
+            android:id="@+id/fabAddRegle"
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +61,23 @@
             app:srcCompat="@drawable/outline_add_black_24dp"
             app:tint="@android:color/white" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:hint="Prevision"
+            android:minWidth="150dip"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/icons8_calendrier">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <!-- FrameLayout for our fragments -->

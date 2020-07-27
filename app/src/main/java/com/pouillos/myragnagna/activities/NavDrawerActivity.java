@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -21,37 +18,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.pouillos.myragnagna.R;
-import com.pouillos.myragnagna.activities.afficher.AfficherDepenseActivity;
-import com.pouillos.myragnagna.activities.afficher.AfficherListeBudgetAnnuelActivity;
-import com.pouillos.myragnagna.activities.afficher.AfficherListeBudgetMensuelActivity;
-import com.pouillos.myragnagna.activities.afficher.AfficherListeDepenseActivity;
-import com.pouillos.myragnagna.activities.ajouter.AjouterCategorieDepenseActivity;
-import com.pouillos.myragnagna.dao.BudgetAnnuelDao;
-import com.pouillos.myragnagna.dao.BudgetDao;
-import com.pouillos.myragnagna.dao.BudgetMensuelDao;
-import com.pouillos.myragnagna.dao.CategorieDepenseDao;
+import com.pouillos.myragnagna.activities.afficher.AfficherListeRegleActivity;
+import com.pouillos.myragnagna.activities.afficher.AfficherListeReglePrevisionnelleActivity;
+import com.pouillos.myragnagna.activities.afficher.AfficherRegleActivity;
 import com.pouillos.myragnagna.dao.DaoMaster;
 import com.pouillos.myragnagna.dao.DaoSession;
-import com.pouillos.myragnagna.dao.DepenseDao;
+import com.pouillos.myragnagna.dao.RegleDao;
+import com.pouillos.myragnagna.dao.ReglePrevisionnelleDao;
+import com.pouillos.myragnagna.entities.Regle;
 import com.pouillos.myragnagna.fragments.DatePickerFragment;
-import com.pouillos.myragnagna.utils.DateUtils;
 
 import org.greenrobot.greendao.database.Database;
 
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import icepick.Icepick;
 
@@ -64,12 +52,9 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     protected DaoSession daoSession;
 
-    protected CategorieDepenseDao categorieDepenseDao;
-    protected DepenseDao depenseDao;
-    protected BudgetDao budgetDao;
-    protected BudgetMensuelDao budgetMensuelDao;
-    protected BudgetAnnuelDao budgetAnnuelDao;
 
+    protected ReglePrevisionnelleDao reglePrevisionnelleDao;
+    protected RegleDao regleDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +62,8 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         //initialiser greenDAO
         initialiserDao();
-        categorieDepenseDao = daoSession.getCategorieDepenseDao();
-        depenseDao = daoSession.getDepenseDao();
-        budgetDao = daoSession.getBudgetDao();
-        budgetMensuelDao = daoSession.getBudgetMensuelDao();
-        budgetAnnuelDao = daoSession.getBudgetAnnuelDao();
+        reglePrevisionnelleDao = daoSession.getReglePrevisionnelleDao();
+        regleDao = daoSession.getRegleDao();
 
     }
 
@@ -115,32 +97,22 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 ouvrirActiviteSuivante(NavDrawerActivity.this, AccueilActivity.class,true);
                 break;
 
-            case R.id.activity_main_drawer_add_depense:
+            case R.id.activity_main_drawer_add_regle:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherDepenseActivity.class);
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherRegleActivity.class);
                 startActivity(myProfilActivity);
                 break;
 
-            case R.id.activity_main_drawer_lister_depenses:
-                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeDepenseActivity.class);
+            case R.id.activity_main_drawer_lister_regle:
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeRegleActivity.class);
                 startActivity(myProfilActivity);
                 break;
 
-            case R.id.activity_main_drawer_lister_budget_mensuel:
-                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeBudgetMensuelActivity.class);
+            case R.id.activity_main_drawer_lister_regle_previsionnelle:
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeReglePrevisionnelleActivity.class);
                 startActivity(myProfilActivity);
                 break;
 
-            case R.id.activity_main_drawer_lister_budget_annuel:
-                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeBudgetAnnuelActivity.class);
-                startActivity(myProfilActivity);
-                break;
-
-            case R.id.activity_main_drawer_add_categorie_depense:
-                //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                myProfilActivity = new Intent(NavDrawerActivity.this, AjouterCategorieDepenseActivity.class);
-                startActivity(myProfilActivity);
-                break;
 
             case R.id.activity_main_drawer_raz:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
@@ -157,7 +129,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     }
 
     protected void raz() {
-
+        regleDao.deleteAll();
     }
 
     @Override
@@ -169,9 +141,9 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             /*case R.id.menu_activity_main_params:
                 Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...", Toast.LENGTH_LONG).show();
                 return true;*/
-            case R.id.menu_activity_main_add_depense:
+            case R.id.menu_activity_main_add_regle:
                 //Toast.makeText(this, "Recherche indisponible, demandez plutôt l'avis de Google, c'est mieux et plus rapide.", Toast.LENGTH_LONG).show();
-                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherDepenseActivity.class);
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherRegleActivity.class);
                 startActivity(myProfilActivity);
                 return true;
 
@@ -249,40 +221,9 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         Icepick.saveInstanceState(this, outState);
     }
 
-    protected Date ActualiserDate(Date date, String time){
-        Date dateActualisee = date;
-        int nbHour = Integer.parseInt(time.substring(0,2));
-        int nbMinute = Integer.parseInt(time.substring(3));
-        dateActualisee = DateUtils.ajouterHeure(dateActualisee,nbHour);
-        dateActualisee = DateUtils.ajouterMinute(dateActualisee,nbMinute);
-        return dateActualisee;
-    }
-
-    protected <T> void buildDropdownMenu(List<T> listObj, Context context, AutoCompleteTextView textView) {
-        List<String> listString = new ArrayList<>();
-        String[] listDeroulante;
-        listDeroulante = new String[listObj.size()];
-        for (T object : listObj) {
-            listString.add(object.toString());
-        }
-        listString.toArray(listDeroulante);
-        ArrayAdapter adapter = new ArrayAdapter(context, R.layout.list_item, listDeroulante);
-        textView.setAdapter(adapter);
-    }
-
     @Override
     public Executor getMainExecutor() {
         return super.getMainExecutor();
-    }
-
-    protected boolean isChecked(ChipGroup chipGroup) {
-        boolean bool;
-        if (chipGroup.getCheckedChipId() != -1) {
-            bool = true;
-        } else {
-            bool = false;
-        }
-        return bool;
     }
 
     protected boolean isFilled(TextInputEditText textInputEditText){
@@ -293,65 +234,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             bool = false;
         }
         return bool;
-    }
-
-    protected boolean isFilled(AutoCompleteTextView textView){
-        boolean bool;
-        if (textView != null) {
-            if (!textView.getText().toString().equalsIgnoreCase("")) {
-                bool = true;
-            } else {
-                bool = false;
-            }
-        } else {
-            bool = false;
-        }
-        return bool;
-    }
-
-    protected boolean isFilled(Object object){
-        boolean bool;
-        if (object!=null) {
-            bool = true;
-        } else {
-            bool = false;
-        }
-        return bool;
-    }
-
-    protected boolean isValidTel(TextView textView) {
-        if (!TextUtils.isEmpty(textView.getText()) && textView.getText().length() <10) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    protected boolean isValidZip(TextView textView) {
-        if (!TextUtils.isEmpty(textView.getText()) && textView.getText().length() <5) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    protected boolean isEmailAdress(String email){
-        Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$");
-        Matcher m = p.matcher(email.toUpperCase());
-        return m.matches();
-    }
-    protected boolean isValidEmail(TextView textView) {
-        if (!TextUtils.isEmpty(textView.getText()) && !isEmailAdress(textView.getText().toString())) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    protected static float floatArrondi(float number, int decimalPlace) {
-        BigDecimal bd = new BigDecimal(number);
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-        return bd.floatValue();
     }
 
     public DaoSession getDaoSession() {
@@ -370,7 +252,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 if (hasDateMax) {
                     datePicker.setMaxDate(dateMax.getTime());
                 }
-
                 String dateJour = ""+datePicker.getDayOfMonth();
                 String dateMois = ""+(datePicker.getMonth()+1);
                 String dateAnnee = ""+datePicker.getYear();
@@ -381,7 +262,6 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                     dateMois = "0"+dateMois;
                 }
                 String dateString = dateJour+"/"+dateMois+"/"+dateAnnee;
-
                 textView.setText(dateString);
             }
         });
@@ -399,9 +279,22 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     }
 
     public void initialiserDao() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "my_depenses_db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "my_ragnagna_db", null);
         Database db = helper.getWritableDb();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
+    }
+
+    public Regle trouverReglePrecedente(Regle regle) {
+        List<Regle> listRegles = regleDao.loadAll();
+        Collections.sort(listRegles);
+        Regle reglePrecedente = new Regle();
+        for (Regle currentRegle : listRegles) {
+            if (currentRegle.getDate().before(regle.getDate())) {
+                reglePrecedente = currentRegle;
+                break;
+            }
+        }
+        return reglePrecedente;
     }
 }

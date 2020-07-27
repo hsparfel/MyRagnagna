@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.afficher.AfficherListeBudgetAnnuelActivity"
+    tools:context=".activities.afficher.AfficherListeRegleActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Liste des Budgets Annuels" />
+            android:text="Liste des Regles" />
 
 
         <LinearLayout
@@ -40,12 +40,11 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listeBudgetAnnuel"
+                android:id="@+id/listeRegle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
             </androidx.recyclerview.widget.RecyclerView>
-
 
 
 

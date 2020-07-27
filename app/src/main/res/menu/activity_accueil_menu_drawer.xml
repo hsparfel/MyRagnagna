@@ -9,13 +9,10 @@
             android:icon="@drawable/outline_home_black_24dp"
             android:title="@string/home" />
         <item
-            android:id="@+id/activity_main_drawer_add_depense"
+            android:id="@+id/activity_main_drawer_add_regle"
             android:icon="@drawable/icons8_argent"
-            android:title="Ajouter Depense" />
-        <item
-            android:id="@+id/activity_main_drawer_add_categorie_depense"
-            android:icon="@drawable/icons8_categories"
-            android:title="Ajouter Categorie" />
+            android:title="Ajouter Regle" />
+
 
     </group>
 
@@ -25,17 +22,14 @@
             <group android:checkableBehavior="single">
 
                 <item
-                android:id="@+id/activity_main_drawer_lister_depenses"
+                android:id="@+id/activity_main_drawer_lister_regle"
                 android:icon="@drawable/icons8_liste"
-                android:title="Lister Depenses" />
+                android:title="Lister Regles" />
                 <item
-                    android:id="@+id/activity_main_drawer_lister_budget_mensuel"
+                    android:id="@+id/activity_main_drawer_lister_regle_previsionnelle"
                     android:icon="@drawable/icons8_liste"
-                    android:title="Lister Budget Mensuel" />
-                <item
-                    android:id="@+id/activity_main_drawer_lister_budget_annuel"
-                    android:icon="@drawable/icons8_liste"
-                    android:title="Lister Budget Annuel" />
+                    android:title="Lister Previsions" />
+
 
             </group>
         </menu>

@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icons8_sac_argent"
+        android:icon="@mipmap/icons8_serviette_hygienique"
         android:label="MyRagnagna"
-        android:roundIcon="@mipmap/icons8_sac_argent"
+        android:roundIcon="@mipmap/icons8_serviette_hygienique"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.pouillos.myragnagna.activities.AccueilActivity">
@@ -17,15 +17,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.pouillos.myragnagna.activities.afficher.AfficherDepenseActivity"
+        <activity android:name="com.pouillos.myragnagna.activities.afficher.AfficherRegleActivity"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.pouillos.myragnagna.activities.ajouter.AjouterCategorieDepenseActivity"
+        <activity android:name="com.pouillos.myragnagna.activities.afficher.AfficherListeReglePrevisionnelleActivity"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.pouillos.myragnagna.activities.afficher.AfficherListeDepenseActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.pouillos.myragnagna.activities.afficher.AfficherListeBudgetMensuelActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name="com.pouillos.myragnagna.activities.afficher.AfficherListeBudgetAnnuelActivity"
+        <activity android:name="com.pouillos.myragnagna.activities.afficher.AfficherListeRegleActivity"
             android:windowSoftInputMode="stateHidden"/>
     </application>
 
