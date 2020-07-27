@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.pouillos.mydepenses"
+        applicationId "com.pouillos.myragnagna"
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
@@ -29,8 +29,8 @@ android {
 }
 
 greendao {
-    schemaVersion 6
-    daoPackage "com.pouillos.mydepenses.dao" // set package of generated classes
+    schemaVersion 1
+    daoPackage "com.pouillos.myragnagna.dao" // set package of generated classes
 }
 
 dependencies {
@@ -55,7 +55,7 @@ dependencies {
     implementation 'frankiesardo:icepick:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
 
-    implementation 'com.google.android.material:material:1.3.0-alpha01'
+    implementation 'com.google.android.material:material:1.3.0-alpha02'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //navDrawer
