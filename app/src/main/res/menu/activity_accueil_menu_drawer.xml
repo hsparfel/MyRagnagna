@@ -10,7 +10,7 @@
             android:title="@string/home" />
         <item
             android:id="@+id/activity_main_drawer_add_regle"
-            android:icon="@drawable/icons8_argent"
+            android:icon="@drawable/icons8_periodes_30"
             android:title="Ajouter Regle" />
 
 

@@ -30,6 +30,7 @@ import com.pouillos.myragnagna.dao.RegleDao;
 import com.pouillos.myragnagna.dao.ReglePrevisionnelleDao;
 import com.pouillos.myragnagna.entities.Regle;
 import com.pouillos.myragnagna.fragments.DatePickerFragment;
+import com.pouillos.myragnagna.utils.DateUtils;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -134,22 +135,13 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myProfilActivity; // = new Intent(NavDrawerActivity.this, ChercherContactActivity.class);
-        //startActivity(myProfilActivity);
-        //3 - Handle actions on menu items
+        Intent myProfilActivity;
+
         switch (item.getItemId()) {
-            /*case R.id.menu_activity_main_params:
-                Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...", Toast.LENGTH_LONG).show();
-                return true;*/
+
             case R.id.menu_activity_main_add_regle:
-                //Toast.makeText(this, "Recherche indisponible, demandez plutôt l'avis de Google, c'est mieux et plus rapide.", Toast.LENGTH_LONG).show();
                 myProfilActivity = new Intent(NavDrawerActivity.this, AfficherRegleActivity.class);
                 startActivity(myProfilActivity);
-                return true;
-
-            case R.id.importEtablissement:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, ImportEtablissementActivity.class);
-              //  startActivity(myProfilActivity);
                 return true;
 
             default:
@@ -296,5 +288,28 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             }
         }
         return reglePrecedente;
+    }
+
+    public void recalculerTousIntervalles() {
+        List<Regle> listRegles = regleDao.loadAll();
+        Collections.sort(listRegles, Collections.reverseOrder());
+        int tailleListe = listRegles.size();
+        for (int i=1;i<tailleListe;i++) {
+            Regle currentRegle = listRegles.get(i);
+            Regle reglePrecedente = trouverReglePrecedente(currentRegle);
+            int intervalle = (int) Math.round(DateUtils.getDaysBetweenDates(reglePrecedente.getDate(),currentRegle.getDate()));
+            currentRegle.setIntervalle(intervalle);
+            regleDao.update(currentRegle);
+        }
+    }
+
+    public void enregistrerRegle(String dateString) {
+        Regle regle = new Regle();
+        Date date = DateUtils.creerDateFromString(dateString);
+        regle.setDate(date);
+        regle.setDateString(DateUtils.ecrireDate(date));
+        Double delta = DateUtils.getDaysBetweenDates(trouverReglePrecedente(regle).getDate(),regle.getDate());
+        regle.setIntervalle((int) Math.round(delta));
+        regleDao.insert(regle);
     }
 }

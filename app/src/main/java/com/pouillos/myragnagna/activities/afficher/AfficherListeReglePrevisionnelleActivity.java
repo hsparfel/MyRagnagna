@@ -67,7 +67,7 @@ public class AfficherListeReglePrevisionnelleActivity extends NavDrawerActivity 
 
     @Override
     public void onClickReglePrevisionnelleButton(int position) {
-        ReglePrevisionnelle reglePrevisionnelle = adapter.getReglePrevisionnelle(position);
-        Toast.makeText(AfficherListeReglePrevisionnelleActivity.this, "a faire click reglePrevisionnelle", Toast.LENGTH_SHORT).show();
+        //ReglePrevisionnelle reglePrevisionnelle = adapter.getReglePrevisionnelle(position);
+        //Toast.makeText(AfficherListeReglePrevisionnelleActivity.this, "a faire click reglePrevisionnelle", Toast.LENGTH_SHORT).show();
     }
 }

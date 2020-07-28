@@ -98,13 +98,15 @@ public class AccueilActivity extends NavDrawerActivity {
                 ReglePrevisionnelle reglePrevisionnelle = new ReglePrevisionnelle();
                 Date date = DateUtils.ajouterJourArrondi(lastRegle.getDate(),moyenne,0);
                 reglePrevisionnelle.setDate(date);
-                reglePrevisionnelle.setDateString(DateUtils.ecrireDateHeure(date));
+                reglePrevisionnelle.setDateString(DateUtils.ecrireDate(date));
                 reglePrevisionnelleDao.insert(reglePrevisionnelle);
                 lastRegle.setDate(date);
                 lastRegle.setDateString(DateUtils.ecrireDateHeure(date));
             }
             List<ReglePrevisionnelle> listPrevisions = reglePrevisionnelleDao.loadAll();
             nextPrevision = listPrevisions.get(0);
+
+            //recalculerTousIntervalles();
             publishProgress(100);
             return null;
         }
@@ -128,12 +130,57 @@ public class AccueilActivity extends NavDrawerActivity {
     private void remplirBDRegle() {
         if (regleDao.count() == 0) {
             Regle regle = new Regle();
-            Date date = DateUtils.creerDateFromString("02/05/2020");
+            Date date = DateUtils.creerDateFromString("14/05/2017");
             regle.setDate(date);
             regle.setDateString(DateUtils.ecrireDate(date));
             regleDao.insert(regle);
 
-            regle = new Regle();
+            enregistrerRegle("08/06/2017");
+            enregistrerRegle("04/07/2017");
+            enregistrerRegle("29/07/2017");
+            enregistrerRegle("26/08/2017");
+            enregistrerRegle("21/09/2017");
+            enregistrerRegle("16/10/2017");
+            enregistrerRegle("11/11/2017");
+            enregistrerRegle("05/12/2017");
+            enregistrerRegle("30/12/2017");
+            enregistrerRegle("25/01/2018");
+            enregistrerRegle("20/02/2018");
+            enregistrerRegle("17/03/2018");
+            enregistrerRegle("10/04/2018");
+            enregistrerRegle("10/05/2018");
+            enregistrerRegle("05/06/2018");
+            enregistrerRegle("01/07/2018");
+            enregistrerRegle("29/07/2018");
+            enregistrerRegle("24/08/2018");
+            enregistrerRegle("19/09/2018");
+            enregistrerRegle("15/10/2018");
+            enregistrerRegle("11/11/2018");
+            enregistrerRegle("08/12/2018");
+            enregistrerRegle("05/01/2019");
+            enregistrerRegle("31/01/2019");
+            enregistrerRegle("21/02/2019");
+            enregistrerRegle("20/03/2019");
+            enregistrerRegle("17/04/2019");
+            enregistrerRegle("13/05/2019");
+            enregistrerRegle("07/06/2019");
+            enregistrerRegle("30/06/2019");
+            enregistrerRegle("28/07/2019");
+            enregistrerRegle("22/08/2019");
+            enregistrerRegle("19/09/2019");
+            enregistrerRegle("15/10/2019");
+            enregistrerRegle("10/11/2019");
+            enregistrerRegle("07/12/2019");
+            enregistrerRegle("01/01/2020");
+            enregistrerRegle("27/01/2020");
+            enregistrerRegle("22/02/2020");
+            enregistrerRegle("20/03/2020");
+            enregistrerRegle("18/04/2020");
+            enregistrerRegle("16/05/2020");
+            enregistrerRegle("09/06/2020");
+            enregistrerRegle("08/07/2020");
+
+           /* regle = new Regle();
             date = DateUtils.creerDateFromString("29/05/2020");
             regle.setDate(date);
             regle.setDateString(DateUtils.ecrireDate(date));
@@ -147,7 +194,7 @@ public class AccueilActivity extends NavDrawerActivity {
             regle.setDateString(DateUtils.ecrireDate(date));
             delta = DateUtils.getDaysBetweenDates(trouverReglePrecedente(regle).getDate(),regle.getDate());
             regle.setIntervalle((int) Math.round(delta));
-            regleDao.insert(regle);
+            regleDao.insert(regle);*/
         }
     }
 }

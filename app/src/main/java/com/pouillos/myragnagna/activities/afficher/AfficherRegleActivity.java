@@ -82,10 +82,13 @@ public class AfficherRegleActivity extends NavDrawerActivity {
             List<Regle> listRegles = regleDao.loadAll();
             Collections.sort(listRegles);
             Regle lastRegle = listRegles.get(0);
+
             Regle regle = new Regle();
             if (currentRegle != null) {
                 regle = currentRegle;
+                lastRegle = trouverReglePrecedente(currentRegle);
             }
+            //lastRegle = trouverReglePrecedente(regle);
                 date = convertStringToDate(textDate.getText().toString());
                 regle.setDate(date);
                 regle.setDateString(DateUtils.ecrireDate(date));
@@ -97,6 +100,7 @@ public class AfficherRegleActivity extends NavDrawerActivity {
                 } else {
                     regleDao.insert(regle);
                 }
+                recalculerTousIntervalles();
             ouvrirActiviteSuivante(AfficherRegleActivity.this, AccueilActivity.class,false);
     }
     }
@@ -104,6 +108,7 @@ public class AfficherRegleActivity extends NavDrawerActivity {
     @OnClick(R.id.fabDelete)
     public void setfabDeleteClick() {
         regleDao.delete(currentRegle);
+        recalculerTousIntervalles();
         ouvrirActiviteSuivante(AfficherRegleActivity.this, AccueilActivity.class,false);
     }
 

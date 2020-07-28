@@ -68,7 +68,7 @@ public class AfficherListeRegleActivity extends NavDrawerActivity implements Rec
     @Override
     public void onClickRegleButton(int position) {
         Regle regle = adapter.getRegle(position);
-        Toast.makeText(AfficherListeRegleActivity.this, "a faire click regle", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(AfficherListeRegleActivity.this, "a faire click regle", Toast.LENGTH_SHORT).show();
         ouvrirActiviteSuivante(AfficherListeRegleActivity.this,AfficherRegleActivity.class,"regleId",regle.getId(),true);
     }
 }
